@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://teth-main.github.io/Graphary/img/apple-touch-icon.png" />
+    <link rel="icon" sizes="32x32" href="https://teth-main.github.io/Grapary/img/icon-32x32.png" />
+    <link rel="icon" sizes="16x16" href="https://teth-main.github.io/Graphary/img/icon-16x16.png" />
+    <meta property="og:url" content="https://teth-main.github.io/Graphary/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Math Graph Art Library" />
+    <meta property="og:description" content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
+    <meta property="og:site_name" content="GraTeX" />
+    <meta property="og:image" content="https://teth-main.github.io/Graphary/img/card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Graph + Library = Graphary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fa-solid fa-book-open"></i> Graph + Library = Graphary
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="search">検索</a></li>
+                    <li><a href="#" class="nav-link" data-page="how-to-use">使い方</a></li>
+                    <li><a href="#" class="nav-link" data-page="register">数式登録</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="page-container">
+        <section id="search-page" class="page active">
+            <section class="search-section">
+                <div class="container">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <h3>キーワード検索</h3>
+                            <input type="text" id="keyword-search" class="search-input" placeholder="数式やタイプで検索...">
+                        </div>
+
+                        <div class="search-box">
+                            <h3>タグ検索</h3>
+                            <div class="tag-container" id="tag-container">
+                                <!-- タグはJavaScriptで動的に生成 -->
+                            </div>
+                        </div>
+
+                        <div class="search-box">
+                            <h3>数式タイプ検索</h3>
+                            <div class="formula-type-container" id="formula-type-container">
+                                <!-- 数式タイプはJavaScriptで動的に生成 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="formulas-container">
+                <div class="container">
+                    <div class="search-results">
+                        <h2>検索結果</h2>
+                        <div class="sort-container">
+                            <label for="sort-select">並び替え</label>
+                            <select id="sort-select" class="filter-input">
+                                <option value="id-asc">ID（昇順）</option>
+                                <option value="id-desc">ID（降順）</option>
+                                <option value="type-asc">タイプ（A-Z）</option>
+                                <option value="type-desc">タイプ（Z-A）</option>
+                            </select>
+                        </div>
+                        <div class="settings">
+                            <label for="items-per-page">1ページあたりの表示件数</label>
+                            <select id="items-per-page">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="loading" class="loading">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+
+                    <div id="formula-grid" class="formula-grid">
+                        <!-- 数式カードはJavaScriptで動的に生成 -->
+                    </div>
+
+                    <div class="pagination">
+                        <button id="prev-page" disabled>前のページ</button>
+                        <div class="page-info">
+                            <span id="current-page">1</span> / <span id="total-pages">1</span>
+                        </div>
+                        <button id="next-page">次のページ</button>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- 使い方ページ -->
+        <section id="how-to-use-page" class="page">
+            <div class="container">
+                <h1 class="page-title">数式検索サイトの使い方</h1>
+
+                <div class="how-to-use-content">
+                    <section class="how-to-section">
+                        <h2>1. 数式の検索方法</h2>
+                        <div class="how-to-item">
+                            <div class="how-to-text">
+                                <h3>キーワード検索</h3>
+                                <p>検索ボックスに数式のタイトル、数式自体、または数式タイプに含まれる単語を入力して検索できます。</p>
+                                <p>例: 「二次方程式」「sin」「微分」など</p>
+                            </div>
+                        </div>
+
+                        <div class="how-to-item">
+                            <div class="how-to-text">
+                                <h3>タグ検索</h3>
+                                <p>タグをクリックして、特定のカテゴリに属する数式を検索できます。複数のタグを選択すると、すべてのタグに一致する数式が表示されます。</p>
+                                <p>例: 「代数学」「三角関数」「積分」など</p>
+                            </div>
+                        </div>
+
+                        <div class="how-to-item">
+                            <div class="how-to-text">
+                                <h3>数式タイプ検索</h3>
+                                <p>数式タイプをクリックして、特定のタイプの数式を検索できます。</p>
+                                <p>例: 「微分方程式」「行列」「確率」など</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="how-to-section">
+                        <h2>2. 検索結果の見方</h2>
+                        <div class="how-to-item">
+                            <div class="how-to-text">
+                                <h3>数式カード</h3>
+                                <p>検索結果は数式カードとして表示されます。各カードには以下の情報が含まれています：</p>
+                                <ul>
+                                    <li><strong>画像:</strong> 数式の視覚的表現</li>
+                                    <li><strong>タイトル:</strong> 数式の名前や説明</li>
+                                    <li><strong>数式タイプ:</strong> 数式の分類（画像の右上に表示）</li>
+                                    <li><strong>数式:</strong> コピー可能な形式の数式</li>
+                                    <li><strong>タグ:</strong> 関連するキーワード</li>
+                                    <li><strong>ID:</strong> 数式の固有識別子</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="how-to-item">
+                            <div class="how-to-text">
+                                <h3>数式のコピー</h3>
+                                <p>数式の横にあるコピーボタン（<i class="fas fa-copy"></i>）をクリックすると、数式をクリップボードにコピーできます。</p>
+                                <p>コピーした数式は、LaTeXをサポートするエディタやドキュメントに貼り付けることができます。</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="how-to-section">
+                        <h2>3. 数式の登録方法</h2>
+                        <div class="how-to-item">
+                            <div class="how-to-text full-width">
+                                <p>新しい数式を登録するには、「数式登録」ページに移動し、フォームに必要な情報を入力してください。</p>
+                                <p>登録には以下の情報が必要です：</p>
+                                <ul>
+                                    <li>関数アートのタイトル</li>
+                                    <li>数式タイプ</li>
+                                    <li>数式（LaTeX形式）</li>
+                                    <li>関数アートの画像（Imgurのリンク）</li>
+                                    <li>関連するタグ</li>
+                                </ul>
+                                <p>登録された数式は審査後、サイトに追加されます。</p>
+                                <div class="cta-button-container">
+                                    <a href="#" class="cta-button nav-link" data-page="register">数式を登録する</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数式登録フォームページ -->
+        <section id="register-page" class="page">
+            <div class="container">
+                <h1 class="page-title">数式登録フォーム</h1>
+
+                <div class="register-content">
+                    <div class="register-info">
+                        <h2>数式登録の手順</h2>
+                        <ol>
+                            <li>
+                                <h3>関数アートの画像を準備</h3>
+                                <p><a href="https://teth-main.github.io/GraTeX/">GraTeX</a>で関数アートの画像を生成します。1920 x 1080または1080x1080をお勧めします。</p>
+                                <p><a href="https://imgur.com/" target="_blank">Imgur</a>にアップロードし、画像の直接リンクを取得</p>
+                            </li>
+                            <li>
+                                <h3>フォームに必要事項を入力</h3>
+                                <p>以下のフォームに、関数アートのタイトル、タイプ、LaTeX形式の数式、画像リンク、関連タグを入力してください。</p>
+                            </li>
+                            <li>
+                                <h3>送信して完了</h3>
+                                <p>すべての情報を入力したら「送信」ボタンをクリックしてください。登録された数式は審査後、サイトに追加されます。</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="register-form-container">
+                        <h2>Google Formで登録</h2>
+                        <p>以下のボタンをクリックして、Google Formで数式を登録してください。</p>
+                        <div class="google-form-button-container">
+                            <a href="https://forms.gle/wiEyAM1oUFqma5AH9" target="_blank" class="google-form-button">
+                                <i class="fab fa-google"></i> Google Formで登録する
+                            </a>
+                        </div>
+                        <p class="form-note">※ フォームが開かない場合は<a href="https://forms.gle/wiEyAM1oUFqma5AH9"
+                                target="_blank">こちらのリンク</a>をクリックしてください。</p>
+
+                        <div class="form-preview">
+                            <h3>登録フォームのプレビュー</h3>
+                            <img src="img/form_preview.png" alt="Google Formのプレビュー画像"
+                                class="form-preview-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="copyright">
+                &copy; <span id="currentYear"></span> 【彳▼亍 ▼てきちょく】関数アート検索
+            </p>
+            <div class="footer-links">
+                <a href="https://x.com/TETH_Main" target="_blank" rel="noopener noreferrer"
+                    class="footer-link">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/models/Formula.js"></script>
+    <script src="js/utils/DateUtils.js"></script>
+    <script src="js/utils/UrlUtils.js"></script>
+    <script src="js/services/DataService.js"></script>
+    <script src="js/controllers/UIController.js"></script>
+    <script src="js/controllers/SearchController.js"></script>
+    <script src="js/controllers/PaginationController.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
