@@ -1,0 +1,974 @@
+/* Root variables */
+:root {
+    --primary-color: #4a86e8;
+    --secondary-color: #f1c40f;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --card-background: #fff;
+    --border-color: #e0e0e0;
+    --text-muted: #666666;
+    --background: #ffffff;
+    --border: #e0e0e0;
+}
+
+/* Base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header styles */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 16px;
+    }
+}
+
+/* Search section styles */
+.search-section {
+    padding: 30px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.search-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.search-box h3 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tag {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tag.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+@media (min-width: 768px) {
+    .filters {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.filter-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.formulas-container {
+    padding: 30px 0;
+}
+
+.formula-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.formula-id-small {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    margin-top: 10px;
+    font-style: italic;
+    white-space: nowrap;
+    align-self: flex-end;
+}
+
+.search-results {
+    margin-bottom: 20px;
+}
+
+.search-results h2 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.thumbnail {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    /* 16:9 Aspect Ratio */
+    overflow: hidden;
+}
+
+.thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.duration {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pagination button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #3a76d8;
+}
+
+.page-info {
+    margin: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Settings styles */
+.settings {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.settings label {
+    margin-right: 10px;
+}
+
+.settings select {
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+.footer {
+    background-color: var(--background);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.copyright {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-link {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+}
+
+/* Utility classes */
+.hidden {
+    display: none;
+}
+
+.command-input {
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.loading i {
+    font-size: 30px;
+    color: var(--primary-color);
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Sort container styles */
+.sort-container {
+    margin-bottom: 20px;
+}
+
+.sort-container label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.sort-container select {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 30px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* 限定公開動画テーブルのスタイル */
+.secret-videos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: var(--card-background);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.secret-videos-table th,
+.secret-videos-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.secret-videos-table th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+.secret-videos-table tr:last-child td {
+    border-bottom: none;
+}
+
+.secret-videos-table tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.secret-videos-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.secret-videos-table a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.secret-videos-table a:hover {
+    text-decoration: underline;
+}
+
+/* 説明文が長い場合の処理 */
+.secret-videos-table td:last-child {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .secret-videos-table {
+        font-size: 14px;
+    }
+
+    .secret-videos-table th,
+    .secret-videos-table td {
+        padding: 8px 10px;
+    }
+
+    .secret-videos-table td:last-child {
+        max-width: 150px;
+    }
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .copyright {
+        text-align: left;
+    }
+}
+
+/* 数式カードのスタイル */
+.formula-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formula-card {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: row;
+}
+
+.formula-card:hover {
+    transform: translateY(-5px);
+}
+
+.formula-image {
+    width: 300px;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+}
+
+.formula-image img {
+    max-width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+}
+
+/* 画像上の数式タイプコンテナ */
+.image-type-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    z-index: 5;
+}
+
+/* 画像上の数式タイプタグ */
+.image-type-tag {
+    background-color: rgba(74, 134, 232, 0.9);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.formula-info {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.formula-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.formula-id {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+
+.formula-type {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.formula-content {
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: stretch;
+    min-height: 50px;
+}
+
+.formula-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    padding: 12px;
+    border-right: 1px solid #e0e0e0;
+}
+
+.formula-text {
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+}
+
+.copy-button-container {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+}
+
+.copy-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.copy-button:hover {
+    color: var(--primary-color);
+    background-color: #e8e8e8;
+}
+
+.tag-id-container {
+    align-items: flex-start;
+    margin-top: 10px;
+    display: flex;
+}
+
+.formula-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex: 1;
+    margin-right: 15px;
+}
+
+.formula-tag {
+    background-color: #f0f0f0;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.formula-tag:hover {
+    background-color: #e0e0e0;
+}
+
+/* 数式タイプ選択のスタイル */
+.formula-type-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.formula-type-tag {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.formula-type-tag:hover {
+    background-color: #d0d0d0;
+}
+
+.formula-type-tag.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.formula-type-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.formula-type-tags.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.formula-type-tag-item {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .formula-title {
+        font-size: 16px;
+    }
+
+    .formula-card {
+        flex-direction: column;
+    }
+
+    .formula-image {
+        width: 100%;
+        height: 200px;
+        min-width: auto;
+    }
+
+    .formula-image img {
+        max-height: 180px;
+    }
+
+    .formula-content {
+        flex-direction: row;
+    }
+
+    .copy-button-container {
+        width: 36px;
+    }
+
+    .copy-button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .image-type-container {
+        top: 5px;
+        right: 5px;
+    }
+
+    .image-type-tag {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+}
+
+/*  */
+
+/* ナビゲーションメニューのスタイル */
+.main-nav {
+    display: flex;
+    align-items: center;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li {
+    margin-left: 20px;
+}
+
+.main-nav .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.main-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.main-nav .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+/* ページコンテナのスタイル */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ページタイトルのスタイル */
+.page-title {
+    color: var(--primary-color);
+    margin: 20px 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* 使い方ページのスタイル */
+.how-to-use-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.how-to-section {
+    margin-bottom: 30px;
+}
+
+.how-to-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.how-to-item {
+    display: flex;
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.how-to-image {
+    width: 40%;
+    min-width: 200px;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.how-to-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.how-to-text {
+    flex: 1;
+    padding: 20px;
+}
+
+.how-to-text h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.how-to-text ul {
+    padding-left: 20px;
+}
+
+.how-to-text li {
+    margin-bottom: 5px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.cta-button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #3a76d8;
+}
+
+/* 数式登録フォームページのスタイル */
+.register-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.register-info {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-info h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.register-info h3 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.register-info ol {
+    padding-left: 20px;
+}
+
+.register-info li {
+    margin-bottom: 20px;
+}
+
+.register-info ul {
+    padding-left: 20px;
+}
+
+.register-form-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.google-form-button-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.google-form-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4285F4;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    gap: 10px;
+}
+
+.google-form-button:hover {
+    background-color: #3367D6;
+}
+
+.google-form-button i {
+    font-size: 20px;
+}
+
+.form-note {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.form-preview {
+    margin-top: 30px;
+}
+
+.form-preview h3 {
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.form-preview-image {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .main-nav li {
+        margin-left: 10px;
+    }
+
+    .main-nav .nav-link {
+        padding: 5px 8px;
+        font-size: 14px;
+    }
+
+    .how-to-item {
+        flex-direction: column;
+    }
+
+    .how-to-image {
+        width: 100%;
+        min-height: 150px;
+    }
+
+    .register-content {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 992px) {
+    .register-content {
+        flex-direction: row;
+    }
+
+    .register-info {
+        flex: 1;
+    }
+
+    .register-form-container {
+        flex: 1;
+    }
+}
