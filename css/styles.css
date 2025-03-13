@@ -136,20 +136,17 @@ header .container {
 /* モバイルメニューのスタイル */
 .mobile-menu {
     display: none;
-    /* デフォルトでは非表示 */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    /* 半透明の背景 */
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s, visibility 0.4s;
     backdrop-filter: blur(8px);
-    /* 背景のぼかし効果 */
     -webkit-backdrop-filter: blur(8px);
     /* Safari用 */
 }
@@ -178,7 +175,6 @@ header .container {
 }
 
 .mobile-menu-header .logo {
-    font-size: 24px;
     font-weight: bold;
     color: white;
     display: flex;
