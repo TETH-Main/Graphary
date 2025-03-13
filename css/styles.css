@@ -37,6 +37,7 @@ header {
     color: white;
     padding: 20px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 header .container {
@@ -62,6 +63,283 @@ header .container {
     }
 }
 
+/* ハンバーガーメニューのスタイル */
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+    z-index: 1002;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.hamburger-menu:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.hamburger-icon {
+    width: 20px;
+    height: 16px;
+    position: relative;
+}
+
+.hamburger-icon span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: white;
+    border-radius: 2px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+.hamburger-icon span:nth-child(1) {
+    top: 0px;
+}
+
+.hamburger-icon span:nth-child(2) {
+    top: 7px;
+}
+
+.hamburger-icon span:nth-child(3) {
+    top: 14px;
+}
+
+/* ハンバーガーメニューがアクティブ時のスタイル */
+
+.hamburger-menu.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.hamburger-menu.active .hamburger-icon span:nth-child(1) {
+    top: 7px;
+    transform: rotate(45deg);
+}
+
+.hamburger-menu.active .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+.hamburger-menu.active .hamburger-icon span:nth-child(3) {
+    top: 7px;
+    transform: rotate(-45deg);
+}
+
+/* モバイルメニューのスタイル */
+.mobile-menu {
+    display: none;
+    /* デフォルトでは非表示 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* 半透明の背景 */
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s, visibility 0.4s;
+    backdrop-filter: blur(8px);
+    /* 背景のぼかし効果 */
+    -webkit-backdrop-filter: blur(8px);
+    /* Safari用 */
+}
+
+.mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 1001;
+}
+
+
+.mobile-menu-header {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 30px;
+}
+
+.mobile-menu-header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-menu-header .logo i {
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+.mobile-nav {
+    flex: 1;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav li {
+    margin: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.mobile-menu li {
+    margin: 20px 0;
+}
+
+/* メニューアイテムのアニメーション遅延 */
+.mobile-menu.active .mobile-nav li:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.mobile-menu.active .mobile-nav li:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.mobile-menu.active .mobile-nav li:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.mobile-menu.active .mobile-nav li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mobile-nav .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-menu .nav-link:hover,
+.mobile-menu .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.mobile-nav .nav-link.active {
+    background-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.menu-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    margin-right: 15px;
+    transition: all 0.3s;
+}
+
+.mobile-nav .nav-link:hover .menu-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-nav .nav-link.active .menu-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.menu-text {
+    font-weight: 500;
+}
+
+.mobile-menu-footer {
+    padding: 20px 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+    transition-delay: 0.4s;
+}
+
+.mobile-menu.active .mobile-menu-footer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 背景エフェクト */
+.menu-background-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(74, 134, 232, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 0;
+}
+
+.mobile-menu.active .menu-background-effect {
+    opacity: 1;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: flex;
+        /* モバイル画面ではハンバーガーメニューを表示 */
+    }
+
+    /* モバイルメニューを表示 */
+    .mobile-menu {
+        display: block;
+    }
+
+    /* ページがスクロールできないようにする（メニュー表示時） */
+    body.menu-open {
+        overflow: hidden;
+    }
+}
+
 /* Search section styles */
 .search-section {
     padding: 30px 0;
@@ -73,12 +351,6 @@ header .container {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
-}
-
-@media (max-width: 768px) {
-    .search-container {
-        grid-template-columns: 1fr 1fr;
-    }
 }
 
 .search-box h3 {
@@ -701,8 +973,6 @@ footer p {
     }
 }
 
-/*  */
-
 /* ナビゲーションメニューのスタイル */
 .main-nav {
     display: flex;
@@ -936,6 +1206,9 @@ footer p {
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
+    .main-nav {
+        display: none;
+    }
     .main-nav li {
         margin-left: 10px;
     }
