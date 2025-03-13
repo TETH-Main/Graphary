@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
+    <meta name="description"
+        content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
     <link rel="apple-touch-icon" sizes="180x180" href="https://teth-main.github.io/Graphary/img/apple-touch-icon.png" />
     <link rel="icon" sizes="32x32" href="https://teth-main.github.io/Grapary/img/icon-32x32.png" />
     <link rel="icon" sizes="16x16" href="https://teth-main.github.io/Graphary/img/icon-16x16.png" />
     <meta property="og:url" content="https://teth-main.github.io/Graphary/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Math Graph Art Library" />
-    <meta property="og:description" content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
+    <meta property="og:description"
+        content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
     <meta property="og:site_name" content="GraTeX" />
     <meta property="og:image" content="https://teth-main.github.io/Graphary/img/card.png" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -24,8 +26,17 @@
     <header>
         <div class="container">
             <div class="logo">
-                <i class="fa-solid fa-book-open"></i> Graph + Library = Graphary
+                <i class="fa-solid fa-book"></i> Graph + Library = Graphary
             </div>
+
+            <div class="hamburger-menu">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
             <nav class="main-nav">
                 <ul>
                     <li><a href="#" class="nav-link active" data-page="search">検索</a></li>
@@ -34,6 +45,49 @@
                 </ul>
             </nav>
         </div>
+
+        <div class="mobile-menu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <div class="logo">
+                        <i class="fa-solid fa-book"></i> Graph + Library = Graphary
+                    </div>
+                </div>
+
+                <nav class="mobile-nav">
+                    <ul>
+                        <li>
+                            <a href="#" class="nav-link active" data-page="search">
+                                <span class="menu-icon"><i class="fas fa-search"></i></span>
+                                <span class="menu-text">検索</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link" data-page="how-to-use">
+                                <span class="menu-icon"><i class="fas fa-book-open"></i></span>
+                                <span class="menu-text">使い方</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link" data-page="register">
+                                <span class="menu-icon"><i class="fas fa-plus-circle"></i></span>
+                                <span class="menu-text">数式登録</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="mobile-menu-footer">
+                    <p>
+                        &copy; <span id="currentYear"></span> 【彳▼亍 ▼てきちょく】関数アート検索
+                    </p>
+                </div>
+            </div>
+
+            <!-- 背景エフェクト用の要素 -->
+            <div class="menu-background-effect"></div>
+        </div>
+
     </header>
 
     <div id="page-container">
@@ -200,7 +254,8 @@
                         <ol>
                             <li>
                                 <h3>関数アートの画像を準備</h3>
-                                <p><a href="https://teth-main.github.io/GraTeX/">GraTeX</a>で関数アートの画像を生成します。1920 x 1080 または 1080 x 1080 をお勧めします。</p>
+                                <p><a href="https://teth-main.github.io/GraTeX/">GraTeX</a>で関数アートの画像を生成します。1920 x 1080
+                                    または 1080 x 1080 をお勧めします。</p>
                                 <p><a href="https://imgur.com/" target="_blank">Imgur</a>にアップロードし、画像の共有リンクを取得してください。</p>
                             </li>
                             <li>
@@ -227,8 +282,7 @@
 
                         <div class="form-preview">
                             <h3>登録フォームのプレビュー</h3>
-                            <img src="img/form_preview.png" alt="Google Formのプレビュー画像"
-                                class="form-preview-image">
+                            <img src="img/form_preview.png" alt="Google Formのプレビュー画像" class="form-preview-image">
                         </div>
                     </div>
                 </div>
