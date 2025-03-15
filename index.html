@@ -17,6 +17,7 @@
     <meta property="og:site_name" content="GraTeX" />
     <meta property="og:image" content="https://teth-main.github.io/Graphary/img/card.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
     <title>Graph + Library = Graphary</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -249,40 +250,133 @@
                 <h1 class="page-title">数式登録フォーム</h1>
 
                 <div class="register-content">
+                    <!-- 登録手順の説明 -->
                     <div class="register-info">
                         <h2>数式登録の手順</h2>
                         <ol>
                             <li>
-                                <h3>関数アートの画像を準備</h3>
-                                <p><a href="https://teth-main.github.io/GraTeX/">GraTeX</a>で関数アートの画像を生成します。1920 x 1080
-                                    または 1080 x 1080 をお勧めします。</p>
-                                <p><a href="https://imgur.com/" target="_blank">Imgur</a>にアップロードし、画像の共有リンクを取得してください。</p>
+                                <h3>基本情報を入力</h3>
+                                <p>数式のタイトル、タイプ、関連するタグを入力してください。</p>
                             </li>
                             <li>
-                                <h3>フォームに必要事項を入力</h3>
-                                <p>以下のフォームに、関数アートのタイトル、タイプ、LaTeX形式の数式、画像リンク、関連タグを入力してください。</p>
+                                <h3>Desmosで数式を作成</h3>
+                                <p>Desmosグラフ計算機に数式を入力し、グラフを作成してください。</p>
                             </li>
                             <li>
-                                <h3>送信して完了</h3>
-                                <p>すべての情報を入力したら「送信」ボタンをクリックしてください。登録された数式は審査後、サイトに追加されます。</p>
+                                <h3>登録ボタンをクリック</h3>
+                                <p>すべての情報を入力したら「登録」ボタンをクリックしてください。数式と画像が自動的に登録されます。</p>
                             </li>
                         </ol>
                     </div>
 
+                    <!-- 登録フォーム -->
                     <div class="register-form-container">
-                        <h2>Google Formで登録</h2>
-                        <p>以下のボタンをクリックして、Google Formで数式を登録してください。</p>
-                        <div class="google-form-button-container">
-                            <a href="https://forms.gle/wiEyAM1oUFqma5AH9" target="_blank" class="google-form-button">
-                                <i class="fab fa-google"></i> Google Formで登録する
-                            </a>
-                        </div>
-                        <p class="form-note">※ フォームが開かない場合は<a href="https://forms.gle/wiEyAM1oUFqma5AH9"
-                                target="_blank">こちらのリンク</a>をクリックしてください。</p>
+                        <h2>数式登録フォーム</h2>
 
-                        <div class="form-preview">
-                            <h3>登録フォームのプレビュー</h3>
-                            <img src="img/form_preview.png" alt="Google Formのプレビュー画像" class="form-preview-image">
+                        <!-- フォーム部分 -->
+                        <form id="formula-register-form" class="formula-form">
+                            <!-- タイトル入力 -->
+                            <div class="form-group">
+                                <label for="formula-title">タイトル <span class="required">*</span></label>
+                                <input type="text" id="formula-title" name="title" required placeholder="例: 二次関数のグラフ">
+                            </div>
+
+                            <!-- タイプ選択（チェックボックス） -->
+                            <div class="form-group">
+                                <label>数式タイプ <span class="required">*</span></label>
+                                <div class="checkbox-group" id="formula-type-checkboxes">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="formula_type" value="関数"> 関数
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="formula_type" value="陰関数"> 陰関数
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="formula_type" value="媒介変数"> 媒介変数
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="formula_type" value="極座標"> 極座標
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="formula_type" value="複素数"> 複素数
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="formula_type" value="3D"> 3D
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- タグ入力 -->
+                            <div class="form-group">
+                                <label for="formula-tags">タグ（カンマ区切り） <span class="required">*</span></label>
+                                <input type="text" id="formula-tags" name="tags" placeholder="例: 二次関数,放物線,代数学">
+                            </div>
+
+                            <!-- Desmos グラフ計算機 -->
+                            <div class="form-group">
+                                <label>数式入力<span class="required">*</span></label>
+                                <div class="desmos-container" id="desmos-calculator">
+                                    <div class="desmos-placeholder">
+                                        <div id="calculator"></div>
+                                        <div class="card-body">
+                                            <div class="form-row">
+                                                <div class="col stretch">
+                                                    <div class="form-group">
+                                                        <label for="labelSize">Label Size</label>
+                                                        <select name="labelSize" class="form-control">
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="2.5">2.5</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4" selected="">4</option>
+                                                            <option value="6">6</option>
+                                                            <option value="8">8</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <button class="register-button" id="screenshot-button"
+                                                        type="button">
+                                                        <span>Generate</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="card-body">
+                                    <img id="preview" src="" alt="Preview" style="display: none;">
+                                </div>
+                            </div>
+
+                            <!-- LaTeX形式の数式（非表示、Desmosから自動取得） -->
+                            <input type="hidden" id="formula-latex" name="formula" value="">
+
+                            <!-- 送信ボタン -->
+                            <div class="form-actions">
+                                <button type="submit" id="register-button" class="register-button">
+                                    <i class="fas fa-upload"></i> 数式を登録する
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- 登録状態表示 -->
+                        <div id="register-status" class="register-status hidden">
+                            <div class="status-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                            <div class="status-message">処理中...</div>
+                        </div>
+
+                        <!-- 登録結果表示 -->
+                        <div id="register-result" class="register-result hidden">
+                            <div class="result-icon success hidden">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="result-icon error hidden">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="result-message"></div>
                         </div>
                     </div>
                 </div>
@@ -310,6 +404,20 @@
     <script src="js/controllers/SearchController.js"></script>
     <script src="js/controllers/PaginationController.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/register.js"></script>
+    <script>
+        // DOMContentLoadedイベントで数式登録フォームを初期化
+        document.addEventListener('DOMContentLoaded', () => {
+            // FormulaRegisterのインスタンスを作成
+            const formulaRegister = new FormulaRegister();
+
+            // 初期化
+            formulaRegister.init();
+
+            // グローバル変数に保存（デバッグ用）
+            window.formulaRegister = formulaRegister;
+        });
+    </script>
 </body>
 
 </html>
