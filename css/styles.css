@@ -1200,11 +1200,172 @@ footer p {
     border-radius: 4px;
 }
 
-/* レスポンシブデザイン */
+/* 数式登録フォームのスタイル */
+.formula-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: #333;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 3px;
+}
+
+.form-group input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 134, 232, 0.2);
+}
+
+/* チェックボックスグループ */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin: 0;
+}
+
+/* Desmos コンテナ */
+.desmos-container {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+.desmos-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #666;
+}
+
+/* 送信ボタン */
+.form-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.register-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.register-button:hover {
+    background-color: #3a76d8;
+}
+
+.register-button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+/* 登録状態表示 */
+.register-status {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-spinner {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.status-message {
+    font-weight: bold;
+    color: #555;
+}
+
+/* 登録結果表示 */
+.register-result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-icon {
+    font-size: 48px;
+}
+
+.result-icon.success {
+    color: #2ecc71;
+}
+
+.result-icon.error {
+    color: #e74c3c;
+}
+
+.result-message {
+    font-weight: bold;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .checkbox-group {
+        gap: 8px;
+    }
+}
+
 @media (max-width: 768px) {
     .main-nav {
         display: none;
     }
+
     .main-nav li {
         margin-left: 10px;
     }
@@ -1240,4 +1401,72 @@ footer p {
     .register-form-container {
         flex: 1;
     }
+}
+
+/* Desmos */
+#calculator {
+    width: 100%;
+    height: 600px;
+    border: none;
+    overflow: hidden;   
+}
+
+/* form */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: flex-end;
+    column-gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.col {
+    position: relative;
+}
+
+.stretch {
+    flex: 1;
+}
+
+#screenshot-button {
+    margin-bottom: 10px;
+}
+
+#preview {
+    display: block;
+    margin: auto;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    width: 100%;
+    height: auto;
 }

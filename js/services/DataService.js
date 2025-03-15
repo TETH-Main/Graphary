@@ -17,7 +17,7 @@ class DataService {
      */
     async fetchData() {
         try {
-            const url = 'https://script.google.com/macros/s/AKfycby1uK606WpIBfn6oxRaALBsUDgL4RO0Z6KYap5H_kaf9P8MCHX8ywfadbW8A53QiLjt4Q/exec?id=1xY-Yfi7LE-rx7OmjTqNYOkF6Ig-lojUG70VN5nV4kfw&name=data';
+            const url = 'https://script.google.com/macros/s/AKfycby1uK606WpIBfn6oxRaALBsUDgL4RO0Z6KYap5H_kaf9P8MCHX8ywfadbW8A53QiLjt4Q/exec?id=139qGcw2VXJRZF_zBLJ-wL-Lh8--hHZEFd0I1YYVsnqM&name=data';
 
             const response = await fetch(url);
 
