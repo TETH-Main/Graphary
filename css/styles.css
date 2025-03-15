@@ -1390,10 +1390,6 @@ footer p {
 }
 
 @media (min-width: 992px) {
-    .register-content {
-        flex-direction: row;
-    }
-
     .register-info {
         flex: 1;
     }
