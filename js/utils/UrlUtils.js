@@ -15,6 +15,14 @@ class UrlUtils {
 
         if (searchParams.selectedTags && searchParams.selectedTags.length > 0) {
             params.set('tags', searchParams.selectedTags.join(','));
+        } else {
+            params.delete('tags');
+        }
+
+        if (searchParams.selectedFormulaTypes && searchParams.selectedFormulaTypes.length > 0) {
+            params.set('types', searchParams.selectedFormulaTypes.join(','));
+        } else {
+            params.delete('types');
         }
 
         if (searchParams.sortOption && searchParams.sortOption !== 'date-desc') {
@@ -56,6 +64,10 @@ class UrlUtils {
 
         if (params.has('tags')) {
             searchParams.selectedTags = params.get('tags').split(',');
+        }
+
+        if (params.has('types')) {
+            searchParams.selectedFormulaTypes = params.get('types').split(',');
         }
 
         if (params.has('sort')) {

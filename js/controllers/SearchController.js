@@ -163,4 +163,39 @@ class SearchController {
     isDataServiceSet() {
         return this.dataService !== null && this.dataService !== undefined;
     }
+
+    /**
+     * URLパラメータから検索条件を取得
+     * @returns {Object} 検索パラメータ
+     */
+    static getSearchParamsFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const searchParams = {};
+
+        if (params.has('q')) {
+            searchParams.keyword = params.get('q');
+        }
+
+        if (params.has('tags')) {
+            searchParams.selectedTags = params.get('tags').split(',');
+        }
+
+        if (params.has('types')) {
+            searchParams.selectedFormulaTypes = params.get('types').split(',');
+        }
+
+        if (params.has('sort')) {
+            searchParams.sortOption = params.get('sort');
+        }
+
+        if (params.has('items')) {
+            searchParams.itemsPerPage = parseInt(params.get('items'));
+        }
+
+        if (params.has('page')) {
+            searchParams.currentPage = parseInt(params.get('page'));
+        }
+
+        return searchParams;
+    }
 }
