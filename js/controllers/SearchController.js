@@ -137,4 +137,30 @@ class SearchController {
     getFilteredFormulas() {
         return [...this.filteredFormulas];
     }
+
+    /**
+     * IDから数式を取得
+     * @param {string} id - 数式のID
+     * @returns {Formula|null} 数式オブジェクトまたはnull
+     */
+    getFormulaById(id) {
+        const formulas = this.getFilteredFormulas();
+        return formulas.find(formula => formula.id == id) || null;
+    }
+
+    /**
+     * データがロードされるまで待つ
+     * @returns {Promise<void>}
+     */
+    waitForDataLoad() {
+        return this.dataService.waitForDataLoad();
+    }
+
+    /**
+     * データサービスがセットされているかどうかを確認
+     * @returns {boolean} データサービスがセットされているかどうか
+     */
+    isDataServiceSet() {
+        return this.dataService !== null && this.dataService !== undefined;
+    }
 }

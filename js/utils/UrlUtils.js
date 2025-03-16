@@ -7,7 +7,7 @@ class UrlUtils {
      * @param {Object} searchParams - 検索パラメータ
      */
     static updateUrlParams(searchParams) {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams(window.location.search);
 
         if (searchParams.keyword) {
             params.set('q', searchParams.keyword);
@@ -27,6 +27,12 @@ class UrlUtils {
 
         if (searchParams.currentPage && searchParams.currentPage > 1) {
             params.set('page', searchParams.currentPage.toString());
+        }
+
+        // Preserve existing formulaId parameter
+        const formulaId = params.get('formulaId');
+        if (formulaId) {
+            params.set('formulaId', formulaId);
         }
 
         const newUrl = params.toString()

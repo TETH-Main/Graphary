@@ -178,8 +178,9 @@ class UIController {
     /**
      * 数式モーダルを開く
      * @param {Formula} formula - 表示する数式オブジェクト
+     * @param {boolean} [isInitialLoad=false] - 初期ロードかどうか
      */
-    openFormulaModal(formula) {
+    openFormulaModal(formula, isInitialLoad = false) {
         // モーダル内容をクリア
         this.elements.modalContent.innerHTML = '';
         
@@ -206,6 +207,13 @@ class UIController {
         
         // スクロールを無効化
         document.body.style.overflow = 'hidden';
+
+        // URLパラメータを更新
+        if (!isInitialLoad) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('formulaId', formula.id);
+            window.history.pushState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
+        }
     }
     
     /**
@@ -216,6 +224,11 @@ class UIController {
         
         // スクロールを有効化
         document.body.style.overflow = '';
+
+        // URLパラメータを更新
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.delete('formulaId');
+        window.history.pushState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
     }
     
     /**

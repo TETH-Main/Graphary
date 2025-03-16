@@ -22,7 +22,7 @@ class PaginationController {
     /**
      * ページネーションを初期化
      */
-    init() {
+    async init() {
         // イベントリスナーを設定
         this.elements.prevPage.addEventListener('click', () => this.prevPage());
         this.elements.nextPage.addEventListener('click', () => this.nextPage());
@@ -31,8 +31,29 @@ class PaginationController {
         // 初期値を設定
         const searchParams = this.searchController.getSearchParams();
         this.elements.itemsPerPage.value = searchParams.itemsPerPage.toString();
+
+        // データがロードされるのを待つ
+        await this.searchController.waitForDataLoad();
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        // URLパラメータをチェックしてモーダルを開く
+        this.checkUrlForModal();
     }
 
+    /**
+     * URLパラメータをチェックしてモーダルを開く
+     */
+    checkUrlForModal() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const formulaId = urlParams.get('formulaId');
+        if (formulaId) {
+            const formula = this.searchController.getFormulaById(formulaId);
+            if (formula) {
+                const uiController = window.app.uiController;
+                uiController.openFormulaModal(formula, true); // Pass a flag to indicate initial load
+            }
+        }
+    }
 
     /**
      * 前のページに移動

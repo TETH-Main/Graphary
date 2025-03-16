@@ -9,6 +9,8 @@ class DataService {
         this.formulas = [];
         this.tags = new Set();
         this.formulaTypes = new Set(); // 数式タイプを保存するセット
+        this.dataLoadedCallback = null;
+        this.dataLoaded = false;
     }
 
     /**
@@ -29,6 +31,10 @@ class DataService {
 
             // データの処理
             this.processData(data);
+            this.dataLoaded = true;
+            if (this.dataLoadedCallback) {
+                this.dataLoadedCallback();
+            }
             return true;
         } catch (error) {
             console.error('データの取得に失敗しました:', error);
@@ -182,5 +188,30 @@ class DataService {
      */
     getAllTags() {
         return Array.from(this.tags).sort();
+    }
+
+    /**
+     * データがロードされたときに呼び出されるコールバック関数を設定
+     * @param {Function} callback - コールバック関数
+     */
+    setDataLoadedCallback(callback) {
+        this.dataLoadedCallback = callback;
+        if (this.dataLoaded) {
+            callback();
+        }
+    }
+
+    /**
+     * データがロードされるまで待つ
+     * @returns {Promise<void>}
+     */
+    waitForDataLoad() {
+        return new Promise((resolve) => {
+            if (this.dataLoaded) {
+                resolve();
+            } else {
+                this.setDataLoadedCallback(resolve);
+            }
+        });
     }
 }
