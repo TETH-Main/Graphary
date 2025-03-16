@@ -35,6 +35,8 @@ class FormulaRegister {
 
         // Google Apps Script URL
         this.scriptUrl = 'https://script.google.com/macros/s/AKfycbywoehTE4UmExGoOLtus0Xr48X4_LCcc3RMxV2tnXezCMuvVntYZuWPzPL3OrvvWh-C/exec'; // ここにGoogle Apps ScriptのURLを設定
+
+        this.init();
     }
 
     /**

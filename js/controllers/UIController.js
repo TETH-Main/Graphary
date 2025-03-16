@@ -20,7 +20,27 @@ class UIController {
             loading: document.getElementById('loading'),
             tagCloud: document.getElementById('tag-cloud'),
             sortSelect: document.getElementById('sort-select'),
+            formulaModal: document.getElementById('formula-modal'),
+            modalContent: document.getElementById('modal-content'),
+            modalClose: document.getElementById('modal-close')
         };
+        
+        // モーダル閉じるボタンのイベントリスナー
+        if (this.elements.modalClose) {
+            this.elements.modalClose.addEventListener('click', () => this.closeModal());
+        }
+        
+        // モーダルオーバーレイクリックでも閉じる
+        if (this.elements.formulaModal) {
+            this.elements.formulaModal.querySelector('.modal-overlay').addEventListener('click', () => this.closeModal());
+        }
+        
+        // ESCキーでモーダルを閉じる
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !this.elements.formulaModal.classList.contains('hidden')) {
+                this.closeModal();
+            }
+        });
     }
 
     /**
@@ -137,6 +157,188 @@ class UIController {
         const card = document.createElement('div');
         card.className = 'formula-card';
 
+        // 左側の画像と数式タイプのセクションを追加
+        card.appendChild(this._createImageSection(formula));
+        
+        // 右側の情報コンテナを追加
+        card.appendChild(this._createFormulaInfoSection(formula));
+        
+        // カード全体にクリックイベントを追加
+        card.addEventListener('click', () => this.openFormulaModal(formula));
+
+        return card;
+    }
+
+    /**
+     * 数式モーダルを開く
+     * @param {Formula} formula - 表示する数式オブジェクト
+     */
+    openFormulaModal(formula) {
+        // モーダル内容をクリア
+        this.elements.modalContent.innerHTML = '';
+        
+        // モーダルタイトル
+        const title = document.createElement('h2');
+        title.className = 'modal-formula-title';
+        title.textContent = formula.title || `数式 ${formula.id}`;
+        this.elements.modalContent.appendChild(title);
+        
+        // 数式画像セクション
+        const imageSection = this._createModalImageSection(formula);
+        this.elements.modalContent.appendChild(imageSection);
+        
+        // 数式コンテンツセクション
+        const formulaContent = this._createModalFormulaContent(formula);
+        this.elements.modalContent.appendChild(formulaContent);
+        
+        // タグとIDセクション
+        const tagIdSection = this._createModalTagsAndIdSection(formula);
+        this.elements.modalContent.appendChild(tagIdSection);
+        
+        // モーダルを表示
+        this.elements.formulaModal.classList.remove('hidden');
+        
+        // スクロールを無効化
+        document.body.style.overflow = 'hidden';
+    }
+    
+    /**
+     * 数式モーダルを閉じる
+     */
+    closeModal() {
+        this.elements.formulaModal.classList.add('hidden');
+        
+        // スクロールを有効化
+        document.body.style.overflow = '';
+    }
+    
+    /**
+     * モーダル用の画像セクションを作成
+     * @param {Formula} formula - 数式オブジェクト
+     * @returns {HTMLElement} 画像セクション要素
+     * @private
+     */
+    _createModalImageSection(formula) {
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'modal-formula-image';
+        
+        const img = document.createElement('img');
+        img.src = formula.getImageUrl();
+        img.alt = formula.title || `数式 ID: ${formula.id}`;
+        
+        // 数式タイプを画像の右上に表示
+        const typeContainer = document.createElement('div');
+        typeContainer.className = 'modal-image-type-container';
+        
+        // カンマで区切られた数式タイプを分割
+        const types = formula.formulaType.split(',').map(type => type.trim());
+        types.forEach(type => {
+            if (!type) return;
+            
+            const typeTag = document.createElement('span');
+            typeTag.className = 'modal-image-type-tag';
+            typeTag.textContent = type;
+            
+            typeContainer.appendChild(typeTag);
+        });
+        
+        imageContainer.appendChild(img);
+        imageContainer.appendChild(typeContainer);
+        
+        return imageContainer;
+    }
+    
+    /**
+     * モーダル用の数式コンテンツを作成
+     * @param {Formula} formula - 数式オブジェクト
+     * @returns {HTMLElement} 数式コンテンツ要素
+     * @private
+     */
+    _createModalFormulaContent(formula) {
+        // 数式コンテナ（スクロール可能な領域）
+        const formulaScrollContainer = document.createElement('div');
+        formulaScrollContainer.className = 'modal-formula-scroll-container';
+        
+        // 数式テキスト
+        const formulaText = document.createElement('div');
+        formulaText.className = 'modal-formula-text';
+        formulaText.textContent = formula.formula;
+        
+        formulaScrollContainer.appendChild(formulaText);
+        
+        // コピーボタンコンテナ
+        const copyButtonContainer = document.createElement('div');
+        copyButtonContainer.className = 'modal-copy-button-container';
+        
+        // モーダル用のコピーボタン
+        const copyButton = document.createElement('button');
+        copyButton.className = 'modal-copy-button';
+        copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+        copyButton.title = '数式をコピー';
+        copyButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // モーダルが閉じないように
+            this._copyFormulaToClipboard(formula.formula, copyButton);
+        });
+        
+        copyButtonContainer.appendChild(copyButton);
+        
+        // 数式コンテナ
+        const formulaContainer = document.createElement('div');
+        formulaContainer.className = 'modal-formula-content';
+        formulaContainer.appendChild(formulaScrollContainer);
+        formulaContainer.appendChild(copyButtonContainer);
+        
+        return formulaContainer;
+    }
+    
+    /**
+     * モーダル用のタグとIDセクションを作成
+     * @param {Formula} formula - 数式オブジェクト
+     * @returns {HTMLElement} タグとIDセクション要素
+     * @private
+     */
+    _createModalTagsAndIdSection(formula) {
+        const container = document.createElement('div');
+        container.className = 'modal-tag-id-container';
+        
+        // タグコンテナ
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'modal-formula-tags';
+        
+        formula.tags.forEach(tag => {
+            if (!tag) return;
+            
+            const tagElement = document.createElement('div');
+            tagElement.className = 'modal-formula-tag';
+            tagElement.textContent = tag;
+            
+            tagElement.addEventListener('click', (e) => {
+                e.stopPropagation(); // モーダルが閉じないように
+                this._handleTagClick(tag);
+                this.closeModal(); // タグ選択後はモーダルを閉じる
+            });
+            
+            tagsContainer.appendChild(tagElement);
+        });
+        
+        // ID表示
+        const idElement = document.createElement('div');
+        idElement.className = 'modal-formula-id';
+        idElement.textContent = `ID: ${formula.id}`;
+        
+        container.appendChild(tagsContainer);
+        container.appendChild(idElement);
+        
+        return container;
+    }
+
+    /**
+     * 数式カードの画像セクションを作成
+     * @param {Formula} formula - 数式オブジェクト
+     * @returns {HTMLElement} 画像セクション要素
+     * @private
+     */
+    _createImageSection(formula) {
         // 左側の画像コンテナ
         const imageContainer = document.createElement('div');
         imageContainer.className = 'formula-image';
@@ -164,6 +366,16 @@ class UIController {
         imageContainer.appendChild(img);
         imageContainer.appendChild(imageTypeContainer);
 
+        return imageContainer;
+    }
+
+    /**
+     * 数式カードの情報セクションを作成
+     * @param {Formula} formula - 数式オブジェクト
+     * @returns {HTMLElement} 情報セクション要素
+     * @private
+     */
+    _createFormulaInfoSection(formula) {
         // 右側の情報コンテナ
         const infoContainer = document.createElement('div');
         infoContainer.className = 'formula-info';
@@ -173,6 +385,27 @@ class UIController {
         title.className = 'formula-title';
         title.textContent = formula.title || `数式 ${formula.id}`;
 
+        // 数式コンテンツ領域の作成
+        const formulaContainer = this._createFormulaContent(formula);
+
+        // タグとID情報の作成
+        const tagIdContainer = this._createTagsAndIdSection(formula);
+
+        // 情報コンテナに要素を追加
+        infoContainer.appendChild(title);
+        infoContainer.appendChild(formulaContainer);
+        infoContainer.appendChild(tagIdContainer);
+
+        return infoContainer;
+    }
+
+    /**
+     * 数式のコンテンツ部分（式とコピーボタン）を作成
+     * @param {Formula} formula - 数式オブジェクト
+     * @returns {HTMLElement} 数式コンテンツ要素
+     * @private
+     */
+    _createFormulaContent(formula) {
         // 数式コンテナ（スクロール可能な領域）
         const formulaScrollContainer = document.createElement('div');
         formulaScrollContainer.className = 'formula-scroll-container';
@@ -189,25 +422,7 @@ class UIController {
         copyButtonContainer.className = 'copy-button-container';
 
         // コピーボタン
-        const copyButton = document.createElement('button');
-        copyButton.className = 'copy-button';
-        copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-        copyButton.title = '数式をコピー';
-        copyButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(formula.formula)
-                .then(() => {
-                    // コピー成功時の処理
-                    copyButton.innerHTML = '<i class="fas fa-check"></i>';
-                    setTimeout(() => {
-                        copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('数式のコピーに失敗しました:', err);
-                });
-        });
-
-        copyButtonContainer.appendChild(copyButton);
+        copyButtonContainer.appendChild(this._createCopyButton(formula.formula));
 
         // 数式コンテナ（スクロール領域とコピーボタンを含む）
         const formulaContainer = document.createElement('div');
@@ -215,6 +430,51 @@ class UIController {
         formulaContainer.appendChild(formulaScrollContainer);
         formulaContainer.appendChild(copyButtonContainer);
 
+        return formulaContainer;
+    }
+
+    /**
+     * 数式をコピーするためのボタンを作成
+     * @param {string} formulaText - コピーする数式テキスト
+     * @returns {HTMLElement} コピーボタン要素
+     * @private
+     */
+    _createCopyButton(formulaText) {
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+        copyButton.title = '数式をコピー';
+        copyButton.addEventListener('click', () => this._copyFormulaToClipboard(formulaText, copyButton));
+        return copyButton;
+    }
+
+    /**
+     * 数式をクリップボードにコピー
+     * @param {string} formulaText - コピーする数式テキスト
+     * @param {HTMLElement} button - コピーボタン要素（フィードバックの表示用）
+     * @private
+     */
+    _copyFormulaToClipboard(formulaText, button) {
+        navigator.clipboard.writeText(formulaText)
+            .then(() => {
+                // コピー成功時の処理
+                button.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('数式のコピーに失敗しました:', err);
+            });
+    }
+
+    /**
+     * タグとIDのセクションを作成
+     * @param {Formula} formula - 数式オブジェクト
+     * @returns {HTMLElement} タグとID表示セクション
+     * @private
+     */
+    _createTagsAndIdSection(formula) {
         // タグとIDのコンテナ
         const tagIdContainer = document.createElement('div');
         tagIdContainer.className = 'tag-id-container';
@@ -230,20 +490,7 @@ class UIController {
             tagElement.className = 'formula-tag';
             tagElement.textContent = tag;
 
-            tagElement.addEventListener('click', () => {
-                if (!this.searchController.getSelectedTags().includes(tag)) {
-                    this.searchController.toggleTag(tag);
-                    this.renderTags();
-
-                    // 検索結果を即時更新
-                    const filteredFormulas = this.searchController.getFilteredFormulas();
-                    const paginationController = window.app.paginationController;
-                    const startIndex = paginationController.getStartIndex();
-                    const endIndex = paginationController.getEndIndex();
-                    this.renderFormulas(filteredFormulas, startIndex, endIndex);
-                    paginationController.updatePagination();
-                }
-            });
+            tagElement.addEventListener('click', () => this._handleTagClick(tag));
 
             tags.appendChild(tagElement);
         });
@@ -257,16 +504,27 @@ class UIController {
         tagIdContainer.appendChild(tags);
         tagIdContainer.appendChild(idElement);
 
-        // 情報コンテナに要素を追加
-        infoContainer.appendChild(title);
-        infoContainer.appendChild(formulaContainer);
-        infoContainer.appendChild(tagIdContainer);
+        return tagIdContainer;
+    }
 
-        // カードに要素を追加
-        card.appendChild(imageContainer);
-        card.appendChild(infoContainer);
+    /**
+     * 数式カードのタグをクリックした時の処理
+     * @param {string} tag - クリックされたタグ
+     * @private
+     */
+    _handleTagClick(tag) {
+        if (!this.searchController.getSelectedTags().includes(tag)) {
+            this.searchController.toggleTag(tag);
+            this.renderTags();
 
-        return card;
+            // 検索結果を即時更新
+            const filteredFormulas = this.searchController.getFilteredFormulas();
+            const paginationController = window.app.paginationController;
+            const startIndex = paginationController.getStartIndex();
+            const endIndex = paginationController.getEndIndex();
+            this.renderFormulas(filteredFormulas, startIndex, endIndex);
+            paginationController.updatePagination();
+        }
     }
 
     /**
