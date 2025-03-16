@@ -164,7 +164,13 @@ class UIController {
         card.appendChild(this._createFormulaInfoSection(formula));
         
         // カード全体にクリックイベントを追加
-        card.addEventListener('click', () => this.openFormulaModal(formula));
+        card.addEventListener('click', (event) => {
+            // コピーボタンがクリックされた場合はモーダルを開かない
+            if (event.target.closest('.copy-button')) {
+                return;
+            }
+            this.openFormulaModal(formula);
+        });
 
         return card;
     }
