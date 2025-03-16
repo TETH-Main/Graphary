@@ -74,6 +74,11 @@ class FormulaRegister {
     setupEventListeners() {
         // フォーム送信イベント
         this.elements.form.addEventListener('submit', (e) => {
+            // Desmosコンテナ内のボタンがクリックされた場合は送信を防止
+            if (e.submitter && e.submitter.closest('#desmos-calculator') && !e.submitter.hasAttribute('role')) {
+                e.preventDefault();
+                return;
+            }
             e.preventDefault();
             this.handleFormSubmit();
         });
@@ -88,6 +93,11 @@ class FormulaRegister {
                 console.error('スクリーンショットエラー:', error);
                 alert('スクリーンショットの取得に失敗しました');
             }
+        });
+
+        // Desmosコンテナ内のクリックイベントを停止
+        this.elements.desmosContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
     }
 
