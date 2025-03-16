@@ -1466,3 +1466,243 @@ label {
     width: 100%;
     height: auto;
 }
+
+/* 数式モーダルのスタイル */
+.formula-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.modal-container {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    z-index: 2001;
+    padding: 25px;
+    transition: transform 0.3s ease;
+    transform: translateY(0);
+}
+
+.formula-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.formula-modal.hidden .modal-container {
+    transform: translateY(50px);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.modal-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* モーダル内の要素スタイル - 通常よりも大きく */
+.modal-formula-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.modal-formula-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+}
+
+.modal-formula-image img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.modal-image-type-container {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.modal-image-type-tag {
+    background-color: rgba(74, 134, 232, 0.9);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    display: inline-block;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.modal-formula-content {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: stretch;
+    min-height: 60px;
+}
+
+.modal-formula-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    padding: 15px;
+    border-right: 1px solid #e0e0e0;
+}
+
+.modal-formula-text {
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+    font-size: 18px;
+}
+
+.modal-copy-button-container {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+}
+
+.modal-copy-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.modal-copy-button:hover {
+    color: var(--primary-color);
+    background-color: #e8e8e8;
+}
+
+.modal-tag-id-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.modal-formula-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+}
+
+.modal-formula-tag {
+    background-color: #f0f0f0;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-formula-tag:hover {
+    background-color: #e0e0e0;
+}
+
+.modal-formula-id {
+    font-size: 16px;
+    color: #666;
+    font-style: italic;
+    padding: 5px 10px;
+}
+
+@media (max-width: 768px) {
+    .modal-container {
+        padding: 15px;
+        width: 95%;
+    }
+    
+    .modal-formula-title {
+        font-size: 22px;
+    }
+    
+    .modal-formula-text {
+        font-size: 16px;
+    }
+    
+    .modal-image-type-tag {
+        font-size: 14px;
+        padding: 4px 10px;
+    }
+    
+    .modal-formula-tag {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+    
+    .modal-copy-button-container {
+        width: 40px;
+    }
+}

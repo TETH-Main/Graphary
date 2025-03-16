@@ -17,6 +17,8 @@ class App {
             keywordSearch: document.getElementById('keyword-search'),
             sortSelect: document.getElementById('sort-select')
         };
+
+        this.formulaRegister = new FormulaRegister();
     }
 
     /**
