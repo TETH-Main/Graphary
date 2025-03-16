@@ -386,6 +386,19 @@
         </div>
     </div>
 
+    <!-- 報告モーダル -->
+    <div id="report-modal" class="report-modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button id="report-close" class="modal-close">&times;</button>
+            <div class="modal-content">
+                <h2>報告理由</h2>
+                <textarea id="report-reason" placeholder="報告理由を入力してください..."></textarea>
+                <button id="report-submit">送信</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/models/Formula.js"></script>
     <script src="js/utils/DateUtils.js"></script>
     <script src="js/utils/UrlUtils.js"></script>
@@ -393,6 +406,7 @@
     <script src="js/controllers/UIController.js"></script>
     <script src="js/controllers/SearchController.js"></script>
     <script src="js/controllers/PaginationController.js"></script>
+    <script src="js/report.js"></script>
     <script src="js/app.js"></script>
     <script src="js/register.js"></script>
 </body>

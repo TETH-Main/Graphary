@@ -6,10 +6,12 @@ class UIController {
      * UIControllerのコンストラクタ
      * @param {DataService} dataService - データサービス
      * @param {SearchController} searchController - 検索コントローラー
+     * @param {ReportRegister} reportRegister - 報告機能
      */
-    constructor(dataService, searchController) {
+    constructor(dataService, searchController, reportRegister) {
         this.dataService = dataService;
         this.searchController = searchController;
+        this.reportRegister = reportRegister;
 
         // DOM要素
         this.elements = {
@@ -22,7 +24,8 @@ class UIController {
             sortSelect: document.getElementById('sort-select'),
             formulaModal: document.getElementById('formula-modal'),
             modalContent: document.getElementById('modal-content'),
-            modalClose: document.getElementById('modal-close')
+            modalClose: document.getElementById('modal-close'),
+            reportButton: document.getElementById('report-button')
         };
         
         // モーダル閉じるボタンのイベントリスナー
@@ -202,6 +205,16 @@ class UIController {
         const tagIdSection = this._createModalTagsAndIdSection(formula);
         this.elements.modalContent.appendChild(tagIdSection);
         
+        // 報告ボタン
+        const reportButton = document.createElement('button');
+        reportButton.className = 'report-button';
+        reportButton.textContent = '報告';
+        reportButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // モーダルが閉じないように
+            this.reportRegister.openReportModal(formula);
+        });
+        this.elements.modalContent.appendChild(reportButton);
+
         // モーダルを表示
         this.elements.formulaModal.classList.remove('hidden');
         

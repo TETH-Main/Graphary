@@ -127,7 +127,7 @@ class FormulaRegister {
             const result = await this.sendToGoogleAppsScript({
                 ...formulaData,
                 image_url: imageHash
-            });
+            }, 'formula');
 
             // 成功メッセージを表示
             this.showResult(true, 'アップロード成功！数式が登録されました。');
@@ -359,9 +359,10 @@ class FormulaRegister {
     /**
      * Google Apps Scriptに送信
      * @param {Object} data - 送信データ
+     * @param {string} type - データの種類（'formula' または 'report'）
      * @returns {Promise<Object>} レスポンス
      */
-    async sendToGoogleAppsScript(data) {
+    async sendToGoogleAppsScript(data, type) {
         try {
             const response = await fetch(this.scriptUrl, {
                 method: 'POST',
@@ -369,7 +370,7 @@ class FormulaRegister {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ ...data, type })
             });
 
             // 注: no-corsモードではレスポンスの内容を読み取れないため、

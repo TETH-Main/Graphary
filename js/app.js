@@ -9,7 +9,8 @@ class App {
         // サービスとコントローラーの初期化
         this.dataService = new DataService();
         this.searchController = new SearchController(this.dataService);
-        this.uiController = new UIController(this.dataService, this.searchController);
+        this.reportRegister = new ReportRegister();
+        this.uiController = new UIController(this.dataService, this.searchController, this.reportRegister);
         this.paginationController = new PaginationController(this.searchController);
 
         // DOM要素
