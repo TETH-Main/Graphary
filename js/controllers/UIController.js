@@ -205,15 +205,16 @@ class UIController {
         const tagIdSection = this._createModalTagsAndIdSection(formula);
         this.elements.modalContent.appendChild(tagIdSection);
         
-        // 報告ボタン
+        // 報告ボタン（アイコン）
         const reportButton = document.createElement('button');
-        reportButton.className = 'report-button';
-        reportButton.textContent = '報告';
+        reportButton.className = 'report-icon';
+        reportButton.innerHTML = '<i class="fas fa-flag"></i>';
+        reportButton.title = '報告';
         reportButton.addEventListener('click', (e) => {
             e.stopPropagation(); // モーダルが閉じないように
             this.reportRegister.openReportModal(formula);
         });
-        this.elements.modalContent.appendChild(reportButton);
+        imageSection.appendChild(reportButton);
 
         // モーダルを表示
         this.elements.formulaModal.classList.remove('hidden');

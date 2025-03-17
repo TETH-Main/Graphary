@@ -18,6 +18,13 @@ class ReportRegister {
         if (this.elements.reportSubmit) {
             this.elements.reportSubmit.addEventListener('click', () => this.submitReport());
         }
+
+        // Close report modal when clicking outside the content area
+        this.elements.reportModal.addEventListener('click', (e) => {
+            if (e.target === this.elements.reportModal) {
+                this.closeReportModal();
+            }
+        });
     }
 
     /**

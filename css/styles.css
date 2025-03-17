@@ -1829,3 +1829,37 @@ label {
 .report-modal .modal-content button:hover {
     background-color: #3a76d8;
 }
+
+/* モーダルウィンドウのスタイル */
+.modal-container {
+    position: relative;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    max-width: 900px;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+/* 報告アイコンのスタイル */
+.report-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.report-icon:hover {
+    color: #c0392b;
+}
+
+/* 報告モーダルのスタイル */
+.report-modal .modal-content textarea {
+    resize: none; /* テキストエリアをリサイズ不可に */
+}
