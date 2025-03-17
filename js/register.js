@@ -23,12 +23,15 @@ class FormulaRegister {
             registerResult: document.getElementById('register-result'),
             resultSuccess: document.querySelector('.result-icon.success'),
             resultError: document.querySelector('.result-icon.error'),
-            resultMessage: document.querySelector('.result-message')
+            resultMessage: document.querySelector('.result-message'),
+            desmosCalculator: document.getElementById('calculator'),
+            desmos3d: document.getElementById('calculator-3d')
         };
 
         // Desmosグラフ計算機のインスタンス
         this.desmosCalculator = null;
         this.calculatorLabelScreenshot = null;
+        this.desmos3D = null;
 
         // Imgur API設定
         this.imgurClientId = 'fb9268d8cb1290a'; // ここにImgurのClient IDを設定
@@ -54,8 +57,7 @@ class FormulaRegister {
      * Desmosグラフ計算機を初期化
      */
     initDesmosCalculator() {
-        const desmosElement = document.getElementById('calculator');
-        this.desmosCalculator = Desmos.GraphingCalculator(desmosElement);
+        this.desmosCalculator = Desmos.GraphingCalculator(this.elements.desmosCalculator);
 
         this.desmosCalculator.observeEvent('change', () => {
             this.elements.latexInput.value = this.getDesmosFormula();
@@ -66,6 +68,14 @@ class FormulaRegister {
             showXAxis: false,
             showYAxis: false
         });
+
+        this.elements.desmos3d.style.display = 'none';
+        this.elements.desmos3d.onload = () => {
+            this.desmos3D = this.elements.desmos3d.contentWindow.Calc;
+            this.desmos3D.observeEvent('change', () => {
+                this.elements.latexInput.value = this.getDesmosFormula3D();
+            });    
+        };
     }
 
     /**
@@ -98,6 +108,21 @@ class FormulaRegister {
         // Desmosコンテナ内のクリックイベントを停止
         this.elements.desmosContainer.addEventListener('click', (e) => {
             e.stopPropagation();
+        });
+
+        // 2d/3d切り替えイベント
+        document.querySelectorAll('input[name="version"]').forEach(element => {
+            element.addEventListener('change', event => {
+                const is2D = event.target.value === 'version-2d';
+                this.elements.desmosCalculator.style.display = is2D ? '' : 'none';
+                this.elements.desmos3d.style.display = is2D ? 'none' : '';
+
+                // Automatically check the "3D" formula type checkbox when 3D version is selected
+                const formulaType3DCheckbox = Array.from(this.elements.typeCheckboxes).find(checkbox => checkbox.value === '3D');
+                if (formulaType3DCheckbox) {
+                    formulaType3DCheckbox.checked = !is2D;
+                }
+            });
         });
     }
 
@@ -222,6 +247,16 @@ class FormulaRegister {
     }
 
     /**
+     * 3D Desmosグラフ計算機の数式を取得
+     * @returns {string} LaTeX形式の数式
+     */
+    getDesmosFormula3D() {
+        const exp = this.desmos3D.getExpressions().find(exp => exp.latex);
+        if(!exp) return '';
+        return exp.latex;
+    }
+
+    /**
      * スクリーンショットのBase64形式の画像データを取得
      * @returns {string} Base64形式の画像データ
      */
@@ -244,6 +279,7 @@ class FormulaRegister {
             labelSize: this.elements.labelSize.value,
             fillColor: '#ffffff'
         };
+        const is2D = document.querySelector('input[name="version"]:checked').value === 'version-2d';
 
         return new Promise((resolve, reject) => {
             const graphImg = new Image();
@@ -283,13 +319,15 @@ class FormulaRegister {
                 reject(error);
             });
 
-            graphImg.src = this.desmosCalculator.screenshot({
+            const calculator = is2D ? this.desmosCalculator : this.desmos3D;
+
+            graphImg.src = calculator.screenshot({
                 width: 320,
                 height: 320,
                 targetPixelRatio: screenshotParam.graphSize / 320
             });
 
-            const label = this.getDesmosFormula();
+            const label = is2D ? this.getDesmosFormula() : this.getDesmosFormula3D();
             const ratio = (Math.min(screenshotParam.width, screenshotParam.height) >= 360) + 1;
             this.calculatorLabelScreenshot.setExpression({
                 id: 'label',

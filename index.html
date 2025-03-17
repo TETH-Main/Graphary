@@ -295,9 +295,17 @@
                             <!-- Desmos グラフ計算機 -->
                             <div class="form-group">
                                 <label>数式入力<span class="required">*</span></label>
+                                <div class="version-switch">
+                                    <input type="radio" name="version" id="version-2d" value="version-2d"
+                                        checked />
+                                    <label for="version-2d">2D</label>
+                                    <input type="radio" name="version" id="version-3d" value="version-3d" />
+                                    <label for="version-3d">3D</label>
+                                </div>
                                 <div class="desmos-container" id="desmos-calculator">
                                     <div class="desmos-placeholder">
                                         <div id="calculator"></div>
+                                        <iframe id="calculator-3d" src="./3d.html"></iframe>
                                         <div class="card-body">
                                             <div class="form-row">
                                                 <div class="col stretch">
