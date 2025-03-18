@@ -10,13 +10,15 @@ class App {
         this.dataService = new DataService();
         this.searchController = new SearchController(this.dataService);
         this.reportRegister = new ReportRegister();
-        this.uiController = new UIController(this.dataService, this.searchController, this.reportRegister);
+        this.lang = getLanguage();
+        this.uiController = new UIController(this.dataService, this.searchController, this.reportRegister, this.lang);
         this.paginationController = new PaginationController(this.searchController);
 
         // DOM要素
         this.elements = {
             keywordSearch: document.getElementById('keyword-search'),
-            sortSelect: document.getElementById('sort-select')
+            sortSelect: document.getElementById('sort-select'),
+            langButtons: document.querySelectorAll('.lang-button')
         };
 
         this.formulaRegister = new FormulaRegister();
@@ -173,6 +175,9 @@ class App {
         // イベントリスナーを設定
         this.setupEventListeners();
 
+        // 言語切替ボタンのイベントを設定
+        this.setupLanguageSwitchEvents();
+
         // ページネーションを初期化
         this.paginationController.init();
 
@@ -199,6 +204,23 @@ class App {
         }
 
         this.uiController.toggleLoading(false);
+    }
+
+    /**
+     * 言語切替ボタンのイベントを設定
+     */
+    setupLanguageSwitchEvents() {
+        this.elements.langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const newLang = button.getAttribute('data-lang');
+                
+                // 言語を更新
+                this.lang = newLang;
+                
+                // UIControllerに言語変更を通知
+                this.uiController.switchLanguage(newLang);
+            });
+        });
     }
 
     /**

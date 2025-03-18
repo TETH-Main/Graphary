@@ -66,7 +66,6 @@ class ReportRegister {
             alert('報告が送信されました。');
             this.closeReportModal();
         } catch (error) {
-            console.error('報告の送信に失敗しました:', error);
             alert('報告の送信に失敗しました。');
         }
     }
@@ -93,7 +92,6 @@ class ReportRegister {
             return { success: true };
 
         } catch (error) {
-            console.error('Google Apps Script送信エラー:', error);
             throw new Error('データの送信に失敗しました');
         }
     }

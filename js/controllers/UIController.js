@@ -8,10 +8,11 @@ class UIController {
      * @param {SearchController} searchController - 検索コントローラー
      * @param {ReportRegister} reportRegister - 報告機能
      */
-    constructor(dataService, searchController, reportRegister) {
+    constructor(dataService, searchController, reportRegister, lang) {
         this.dataService = dataService;
         this.searchController = searchController;
         this.reportRegister = reportRegister;
+        this.lang = lang; // 言語設定（HTML要素から取得）
 
         // DOM要素
         this.elements = {
@@ -60,31 +61,55 @@ class UIController {
      * タグを表示
      */
     renderTags() {
+        if (!this.elements.tagContainer) {
+            return;
+        }
+        
         this.elements.tagContainer.innerHTML = '';
 
         const allTags = this.dataService.getAllTags();
+        
         const selectedTags = this.searchController.getSelectedTags();
+
+        if (!allTags || allTags.length === 0) {
+            this.elements.tagContainer.innerHTML = '<p class="no-tags">No tags available</p>';
+            return;
+        }
 
         allTags.forEach(tag => {
             const tagElement = document.createElement('div');
             tagElement.className = 'tag';
-            tagElement.textContent = tag;
+            
+            // 言語に応じたタグ名を表示
+            const localizedTagName = this.dataService.getLocalizedTagName(tag, this.lang);
+            tagElement.textContent = localizedTagName;
+            tagElement.dataset.originalTag = tag; // 元のタグ名を保持
 
             if (selectedTags.includes(tag)) {
                 tagElement.classList.add('selected');
             }
 
-            tagElement.addEventListener('click', () => {
-                this.searchController.toggleTag(tag);
+            tagElement.addEventListener('click', (e) => {
+                e.preventDefault(); // デフォルトの動作を防止
+                e.stopPropagation(); // イベント伝播を止める
+                
+                const originalTag = tagElement.dataset.originalTag;
+                
+                this.searchController.toggleTag(originalTag);
                 this.renderTags();
 
-                // 検索結果を即時更新するための追加コード
+                // 検索結果を即時更新
                 const filteredFormulas = this.searchController.getFilteredFormulas();
+                
                 const paginationController = window.app.paginationController;
-                const startIndex = paginationController.getStartIndex();
-                const endIndex = paginationController.getEndIndex();
-                this.renderFormulas(filteredFormulas, startIndex, endIndex);
-                paginationController.updatePagination();
+                if (paginationController) {
+                    const startIndex = paginationController.getStartIndex();
+                    const endIndex = paginationController.getEndIndex();
+                    this.renderFormulas(filteredFormulas, startIndex, endIndex);
+                    paginationController.updatePagination();
+                } else {
+                    this.renderFormulas(filteredFormulas, 0, Math.min(10, filteredFormulas.length));
+                }
             });
 
             this.elements.tagContainer.appendChild(tagElement);
@@ -120,26 +145,46 @@ class UIController {
      * 数式タイプを表示
      */
     renderFormulaTypes() {
+        if (!this.elements.formulaTypeContainer) {
+            return;
+        }
+        
         this.elements.formulaTypeContainer.innerHTML = '';
 
         const allFormulaTypes = this.dataService.getAllFormulaTypes();
+        
         const selectedFormulaTypes = this.searchController.getSelectedFormulaTypes();
 
+        if (!allFormulaTypes || allFormulaTypes.length === 0) {
+            return;
+        }
+
         allFormulaTypes.forEach(type => {
+            if (!type) {
+                return;
+            }
+            
             const typeElement = document.createElement('div');
             typeElement.className = 'formula-type-tag';
-            typeElement.textContent = type;
+            
+            // 数式タイプの翻訳
+            let displayType = this._getLocalizedFormulaType(type);
+            
+            typeElement.textContent = displayType;
+            typeElement.dataset.originalType = type; // 元の数式タイプを保持
 
             if (selectedFormulaTypes.includes(type)) {
                 typeElement.classList.add('selected');
             }
 
-            typeElement.addEventListener('click', () => {
+            typeElement.addEventListener('click', (e) => {
+                e.preventDefault(); // デフォルトの動作を防止
                 this.searchController.toggleFormulaType(type);
                 this.renderFormulaTypes();
 
                 // 検索結果を即時更新するための追加コード
                 const filteredFormulas = this.searchController.getFilteredFormulas();
+                
                 const paginationController = window.app.paginationController;
                 const startIndex = paginationController.getStartIndex();
                 const endIndex = paginationController.getEndIndex();
@@ -169,7 +214,7 @@ class UIController {
         // カード全体にクリックイベントを追加
         card.addEventListener('click', (event) => {
             // コピーボタンがクリックされた場合はモーダルを開かない
-            if (event.target.closest('.copy-button')) {
+            if (event.target.closest('.copy-button') || event.target.closest('.formula-tag')) {
                 return;
             }
             this.openFormulaModal(formula);
@@ -190,7 +235,7 @@ class UIController {
         // モーダルタイトル
         const title = document.createElement('h2');
         title.className = 'modal-formula-title';
-        title.textContent = formula.title || `数式 ${formula.id}`;
+        title.textContent = (this.lang === 'en' && formula.title_EN) ? (formula.title_EN || `Formula ${formula.id}`) : (formula.title || `数式 ${formula.id}`);
         this.elements.modalContent.appendChild(title);
         
         // 数式画像セクション
@@ -209,7 +254,8 @@ class UIController {
         const reportButton = document.createElement('button');
         reportButton.className = 'report-icon';
         reportButton.innerHTML = '<i class="fas fa-flag"></i>';
-        reportButton.title = '報告';
+        reportButton.title = this.lang === 'en' ? 'report' : '報告';
+
         reportButton.addEventListener('click', (e) => {
             e.stopPropagation(); // モーダルが閉じないように
             this.reportRegister.openReportModal(formula);
@@ -257,7 +303,10 @@ class UIController {
         
         const img = document.createElement('img');
         img.src = formula.getImageUrl();
-        img.alt = formula.title || `数式 ID: ${formula.id}`;
+        
+        // 言語に応じたalt属性を設定
+        const title = (this.lang === 'en' && formula.title_EN) ? formula.title_EN : formula.title;
+        img.alt = title || `${this.lang === 'en' ? 'Formula' : '数式'} ID: ${formula.id}`;
         
         // 数式タイプを画像の右上に表示
         const typeContainer = document.createElement('div');
@@ -270,7 +319,10 @@ class UIController {
             
             const typeTag = document.createElement('span');
             typeTag.className = 'modal-image-type-tag';
-            typeTag.textContent = type;
+            
+            // 翻訳された数式タイプを表示
+            typeTag.textContent = this._getLocalizedFormulaType(type);
+            typeTag.dataset.originalType = type; // 元の数式タイプを保持
             
             typeContainer.appendChild(typeTag);
         });
@@ -307,7 +359,8 @@ class UIController {
         const copyButton = document.createElement('button');
         copyButton.className = 'modal-copy-button';
         copyButton.innerHTML = '<i class="fas fa-copy"></i>';
-        copyButton.title = '数式をコピー';
+        copyButton.title = this.lang === 'en' ? 'Copy formulas' : '数式をコピー';
+
         copyButton.addEventListener('click', (e) => {
             e.stopPropagation(); // モーダルが閉じないように
             this._copyFormulaToClipboard(formula.formula, copyButton);
@@ -338,21 +391,33 @@ class UIController {
         const tagsContainer = document.createElement('div');
         tagsContainer.className = 'modal-formula-tags';
         
-        formula.tags.forEach(tag => {
-            if (!tag) return;
-            
-            const tagElement = document.createElement('div');
-            tagElement.className = 'modal-formula-tag';
-            tagElement.textContent = tag;
-            
-            tagElement.addEventListener('click', (e) => {
-                e.stopPropagation(); // モーダルが閉じないように
-                this._handleTagClick(tag);
-                this.closeModal(); // タグ選択後はモーダルを閉じる
+        if (formula.tags && formula.tags.length > 0) {
+            formula.tags.forEach(tag => {
+                if (!tag) return;
+                
+                const tagElement = document.createElement('div');
+                tagElement.className = 'modal-formula-tag';
+                
+                // 言語に応じたタグ名を表示
+                const localizedTagName = this.dataService.getLocalizedTagName(tag, this.lang);
+                tagElement.textContent = localizedTagName;
+                tagElement.dataset.originalTag = tag; // 元のタグ名を保持
+                
+                tagElement.addEventListener('click', (e) => {
+                    e.stopPropagation(); // モーダルが閉じないように
+                    const originalTag = tagElement.dataset.originalTag;
+                    this._handleTagClick(originalTag);
+                    this.closeModal(); // タグ選択後はモーダルを閉じる
+                });
+                
+                tagsContainer.appendChild(tagElement);
             });
-            
-            tagsContainer.appendChild(tagElement);
-        });
+        } else {
+            const noTagsMessage = document.createElement('div');
+            noTagsMessage.className = 'no-tags-message';
+            noTagsMessage.textContent = this.lang === 'en' ? 'No tags' : 'タグなし';
+            tagsContainer.appendChild(noTagsMessage);
+        }
         
         // ID表示
         const idElement = document.createElement('div');
@@ -378,7 +443,10 @@ class UIController {
 
         const img = document.createElement('img');
         img.src = formula.getImageUrl();
-        img.alt = formula.title || `数式 ID: ${formula.id}`;
+        
+        // 言語に応じたalt属性を設定
+        const title = (this.lang === 'en' && formula.title_EN) ? formula.title_EN : formula.title;
+        img.alt = title || `${this.lang === 'en' ? 'Formula' : '数式'} ID: ${formula.id}`;
 
         // 数式タイプを画像の右上に表示
         const imageTypeContainer = document.createElement('div');
@@ -391,7 +459,10 @@ class UIController {
 
             const typeTag = document.createElement('span');
             typeTag.className = 'image-type-tag';
-            typeTag.textContent = type;
+            
+            // 翻訳された数式タイプを表示
+            typeTag.textContent = this._getLocalizedFormulaType(type);
+            typeTag.dataset.originalType = type; // 元の数式タイプを保持
 
             imageTypeContainer.appendChild(typeTag);
         });
@@ -413,10 +484,12 @@ class UIController {
         const infoContainer = document.createElement('div');
         infoContainer.className = 'formula-info';
 
-        // タイトル
+        // タイトル（言語に応じて切り替え）
         const title = document.createElement('h3');
         title.className = 'formula-title';
-        title.textContent = formula.title || `数式 ${formula.id}`;
+        title.textContent = (this.lang === 'en' && formula.title_EN) ? 
+            formula.title_EN : 
+            formula.title || `${this.lang === 'en' ? 'Formula' : '数式'} ${formula.id}`;
 
         // 数式コンテンツ領域の作成
         const formulaContainer = this._createFormulaContent(formula);
@@ -497,7 +570,7 @@ class UIController {
                 }, 2000);
             })
             .catch(err => {
-                console.error('数式のコピーに失敗しました:', err);
+                // エラーログは削除
             });
     }
 
@@ -516,17 +589,32 @@ class UIController {
         const tags = document.createElement('div');
         tags.className = 'formula-tags';
 
-        formula.tags.forEach(tag => {
-            if (!tag) return;
+        if (formula.tags && formula.tags.length > 0) {
+            formula.tags.forEach(tag => {
+                if (!tag) return;
 
-            const tagElement = document.createElement('div');
-            tagElement.className = 'formula-tag';
-            tagElement.textContent = tag;
+                const tagElement = document.createElement('div');
+                tagElement.className = 'formula-tag';
+                
+                // 言語に応じたタグ名を表示
+                const localizedTagName = this.dataService.getLocalizedTagName(tag, this.lang);
+                tagElement.textContent = localizedTagName;
+                tagElement.dataset.originalTag = tag; // 元のタグ名を保持
 
-            tagElement.addEventListener('click', () => this._handleTagClick(tag));
+                tagElement.addEventListener('click', (e) => {
+                    e.stopPropagation(); // カードのクリックイベントを防止
+                    const originalTag = tagElement.dataset.originalTag;
+                    this._handleTagClick(originalTag);
+                });
 
-            tags.appendChild(tagElement);
-        });
+                tags.appendChild(tagElement);
+            });
+        } else {
+            const noTagsMessage = document.createElement('div');
+            noTagsMessage.className = 'no-tags-message';
+            noTagsMessage.textContent = this.lang === 'en' ? 'No tags' : 'タグなし';
+            tags.appendChild(noTagsMessage);
+        }
 
         // ID（右下に小さく表示）
         const idElement = document.createElement('div');
@@ -552,11 +640,16 @@ class UIController {
 
             // 検索結果を即時更新
             const filteredFormulas = this.searchController.getFilteredFormulas();
+            
             const paginationController = window.app.paginationController;
-            const startIndex = paginationController.getStartIndex();
-            const endIndex = paginationController.getEndIndex();
-            this.renderFormulas(filteredFormulas, startIndex, endIndex);
-            paginationController.updatePagination();
+            if (paginationController) {
+                const startIndex = paginationController.getStartIndex();
+                const endIndex = paginationController.getEndIndex();
+                this.renderFormulas(filteredFormulas, startIndex, endIndex);
+                paginationController.updatePagination();
+            } else {
+                this.renderFormulas(filteredFormulas, 0, Math.min(10, filteredFormulas.length));
+            }
         }
     }
 
@@ -570,5 +663,64 @@ class UIController {
         } else {
             this.elements.loading.classList.add('hidden');
         }
+    }
+
+    /**
+     * 言語を切り替える
+     * @param {string} newLang - 新しい言語コード ('ja' or 'en')
+     */
+    async switchLanguage(newLang) {
+        this.lang = newLang;
+        
+        // タグと数式タイプを再レンダリング
+        this.renderTags();
+        this.renderFormulaTypes();
+
+        // 数式カードを再レンダリング
+        const paginationController = window.app.paginationController;
+        if (paginationController) {
+            const filteredFormulas = this.searchController.getFilteredFormulas();
+            const startIndex = paginationController.getStartIndex();
+            const endIndex = paginationController.getEndIndex();
+            this.renderFormulas(filteredFormulas, startIndex, endIndex);
+        }
+
+        // モーダルが表示されていれば更新
+        if (!this.elements.formulaModal.classList.contains('hidden')) {
+            const formulaId = new URLSearchParams(window.location.search).get('formulaId');
+            if (formulaId) {
+                const formula = this.dataService.getFormulaById(formulaId);
+                if (formula) {
+                    // モーダルを閉じて再表示（言語を反映）
+                    this.closeModal();
+                    this.openFormulaModal(formula, true);
+                }
+            }
+        }
+    }
+
+    /**
+     * 数式タイプを言語に応じて翻訳する
+     * @param {string} type - 原文の数式タイプ
+     * @returns {string} 翻訳された数式タイプ
+     * @private
+     */
+    _getLocalizedFormulaType(type) {
+        return translateFormulaType(type, this.lang);
+    }
+
+    static displayFormulas(formulas, lang) {
+        const formulaGrid = document.getElementById('formula-grid');
+        formulaGrid.innerHTML = '';
+        formulas.forEach(formula => {
+            const title = lang === 'en' ? formula.title_EN : formula.title;
+            const formulaCard = `
+                <div class="formula-card">
+                    <img src="${formula.imageUrl}" alt="${title}">
+                    <h3>${title}</h3>
+                </div>
+            `;
+            formulaGrid.innerHTML += formulaCard;
+        });
     }
 }

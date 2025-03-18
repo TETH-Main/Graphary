@@ -97,7 +97,7 @@ class SearchController {
         this.searchParams.currentPage = 1;
 
         // 数式をフィルタリング
-        this.filteredFormulas = this.dataService.filterFormulas(this.searchParams);
+        this.filteredFormulas = this._filterFormulas();
 
         // 数式をソート
         this.filteredFormulas = this.dataService.sortFormulas(
@@ -109,6 +109,59 @@ class SearchController {
         UrlUtils.updateUrlParams(this.searchParams);
 
         return this.filteredFormulas;
+    }
+
+    /**
+     * 数式をフィルタリング（言語に依存しない検索対応）
+     * @returns {Array} フィルタリングされた数式の配列
+     * @private
+     */
+    _filterFormulas() {
+        const { keyword, selectedTags, selectedFormulaTypes } = this.searchParams;
+        
+        // タグID配列を準備（言語非依存の検索のため）
+        const selectedTagIds = [];
+        if (selectedTags && selectedTags.length > 0) {
+            selectedTags.forEach(tagName => {
+                const tagId = this.dataService.getTagIdByName(tagName);
+                if (tagId) {
+                    selectedTagIds.push(tagId);
+                }
+            });
+        }
+
+        return this.dataService.formulas.filter(formula => {
+            // キーワード検索
+            const matchesKeyword = !keyword ||
+                formula.formula.toLowerCase().includes(keyword.toLowerCase()) ||
+                formula.formulaType.toLowerCase().includes(keyword.toLowerCase()) ||
+                (formula.title && formula.title.toLowerCase().includes(keyword.toLowerCase())) ||
+                (formula.title_EN && formula.title_EN.toLowerCase().includes(keyword.toLowerCase())) ||
+                formula.id.toString().includes(keyword);
+
+            // タグ検索 - タグIDを使用
+            const matchesTags = !selectedTags || selectedTags.length === 0 ||
+                selectedTags.every(tagName => {
+                    // タグ名が直接一致する場合
+                    if (formula.tags.includes(tagName)) {
+                        return true;
+                    }
+                    
+                    // タグIDを使用して一致するか確認
+                    const tagId = this.dataService.getTagIdByName(tagName);
+                    return tagId && formula.tagIds && formula.tagIds.includes(tagId);
+                });
+
+            // 数式タイプ検索
+            const matchesFormulaTypes = !selectedFormulaTypes || selectedFormulaTypes.length === 0 ||
+                selectedFormulaTypes.some(type => {
+                    // 数式タイプがカンマ区切りの場合を考慮
+                    const formulaTypes = formula.formulaType.split(',').map(t => t.trim());
+                    return formulaTypes.includes(type);
+                });
+
+            return matchesKeyword && matchesTags && matchesFormulaTypes;
+        });
     }
 
     /**

@@ -25,7 +25,15 @@ class FormulaRegister {
             resultError: document.querySelector('.result-icon.error'),
             resultMessage: document.querySelector('.result-message'),
             desmosCalculator: document.getElementById('calculator'),
-            desmos3d: document.getElementById('calculator-3d')
+            desmos3d: document.getElementById('calculator-3d'),
+            
+            // タグ選択関連の要素
+            selectedTagsContainer: document.getElementById('selected-tags-container'),
+            tagSearchInput: document.getElementById('tag-search'),
+            tagSuggestionsList: document.getElementById('tag-suggestions-list'),
+            addNewTagButton: document.getElementById('add-new-tag'),
+            createNewTagContainer: document.getElementById('create-new-tag-container'),
+            newTagNameDisplay: document.getElementById('new-tag-name')
         };
 
         // Desmosグラフ計算機のインスタンス
@@ -39,6 +47,14 @@ class FormulaRegister {
         // Google Apps Script URL
         this.scriptUrl = 'https://script.google.com/macros/s/AKfycbywoehTE4UmExGoOLtus0Xr48X4_LCcc3RMxV2tnXezCMuvVntYZuWPzPL3OrvvWh-C/exec'; // ここにGoogle Apps ScriptのURLを設定
 
+        // タグ関連のデータ
+        this.tagsData = {
+            allTags: [], // 全てのタグデータ {id, name, name_EN}
+            selectedTags: [], // 選択されたタグ {id, name} の配列
+            filteredTags: [], // 検索でフィルタリングされたタグ
+            isCreatingNewTag: false // 新規タグ作成モードかどうか
+        };
+
         this.init();
     }
 
@@ -48,6 +64,9 @@ class FormulaRegister {
     init() {
         // Desmosグラフ計算機を初期化
         this.initDesmosCalculator();
+
+        // タグデータを取得
+        this.fetchTagsData();
 
         // イベントリスナーを設定
         this.setupEventListeners();
@@ -76,6 +95,27 @@ class FormulaRegister {
                 this.elements.latexInput.value = this.getDesmosFormula3D();
             });    
         };
+    }
+
+    /**
+     * タグデータを取得
+     */
+    async fetchTagsData() {
+        try {
+            // DataServiceからタグリストを取得
+            const tagsData = await DataService.fetchDataTagsList();
+            
+            this.tagsData.allTags = tagsData.map(tag => ({
+                id: tag.tagID.toString(),
+                name: tag.tagName || '',
+                name_EN: tag.tagName_EN || ''
+            }));
+                        
+            // タグ候補を表示
+            this.renderTagSuggestions(this.tagsData.allTags);
+        } catch (error) {
+            console.error('タグデータの取得に失敗しました:', error);
+        }
     }
 
     /**
@@ -123,6 +163,34 @@ class FormulaRegister {
                     formulaType3DCheckbox.checked = !is2D;
                 }
             });
+        });
+
+        // タグ検索入力
+        this.elements.tagSearchInput.addEventListener('input', () => {
+            this.handleTagSearch();
+        });
+
+        // タグ検索のキーダウンイベント（Enterキーの処理）
+        this.elements.tagSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.handleEnterKeyInTagSearch();
+            }
+        });
+
+        // 新規タグ作成ボタン
+        this.elements.addNewTagButton.addEventListener('click', () => {
+            const searchText = this.elements.tagSearchInput.value.trim();
+            if (searchText) {
+                this.createNewTag(searchText);
+            } else {
+                // 検索テキストが空の場合はフォーカスして注意を促す
+                this.elements.tagSearchInput.focus();
+                this.elements.tagSearchInput.classList.add('error-highlight');
+                setTimeout(() => {
+                    this.elements.tagSearchInput.classList.remove('error-highlight');
+                }, 2000);
+            }
         });
     }
 
@@ -187,6 +255,13 @@ class FormulaRegister {
             return false;
         }
 
+        // タグのバリデーション
+        if (this.tagsData.selectedTags.length === 0) {
+            alert('少なくとも1つのタグを選択してください');
+            this.elements.tagSearchInput.focus();
+            return false;
+        }
+
         if (!this.elements.tagsInput.value.trim()) {
             alert('タグを入力してください');
             this.elements.tagsInput.focus();
@@ -221,8 +296,17 @@ class FormulaRegister {
             .map(checkbox => checkbox.value)
             .join(', ');
 
-        // タグ
-        const tags = this.elements.tagsInput.value.trim();
+        // タグ（既存タグのIDのカンマ区切り）
+        const existingTagIds = this.tagsData.selectedTags
+            .filter(tag => !tag.isNew)
+            .map(tag => tag.id)
+            .join(',');
+
+        // 新しいタグ（名前のカンマ区切り）
+        const newTags = this.tagsData.selectedTags
+            .filter(tag => tag.isNew)
+            .map(tag => tag.name)
+            .join(',');
 
         // LaTeX形式の数式
         this.elements.latexInput.value = this.getDesmosFormula();
@@ -231,7 +315,8 @@ class FormulaRegister {
         return {
             title,
             formula_type: formulaType,
-            tags,
+            tags: existingTagIds,
+            newTags: newTags,  // 新しいタグの追加
             formula
         };
     }
@@ -402,6 +487,8 @@ class FormulaRegister {
      */
     async sendToGoogleAppsScript(data, type) {
         try {
+            console.log('Sending data to GAS:', { ...data, type });
+            
             const response = await fetch(this.scriptUrl, {
                 method: 'POST',
                 mode: 'no-cors', // Google Apps Scriptの場合は'no-cors'モードが必要
@@ -425,9 +512,9 @@ class FormulaRegister {
      * 処理状態を表示
      * @param {string} message - 表示するメッセージ
      */
-    showStatus(message) {
+    showStatus() {
         this.elements.registerStatus.classList.remove('hidden');
-        this.elements.statusMessage.textContent = message;
+        this.elements.statusMessage.setAttribute('data-translate', 'processing-message');
         this.elements.registerResult.classList.add('hidden');
         this.elements.registerButton.disabled = true;
     }
@@ -437,21 +524,28 @@ class FormulaRegister {
      * @param {boolean} success - 成功したかどうか
      * @param {string} message - 表示するメッセージ
      */
-    showResult(success, message) {
+    showResult(success) {
         this.elements.registerStatus.classList.add('hidden');
         this.elements.registerResult.classList.remove('hidden');
 
         if (success) {
             this.elements.resultSuccess.classList.remove('hidden');
             this.elements.resultError.classList.add('hidden');
+            this.elements.resultSuccess.style.display = 'block';
+            this.elements.resultError.style.display = 'none';
             this.elements.registerResult.style.backgroundColor = '#e8f5e9';
+            document.querySelector('.success-message').classList.remove('hidden');
+            document.querySelector('.error-message').classList.add('hidden');
         } else {
             this.elements.resultSuccess.classList.add('hidden');
             this.elements.resultError.classList.remove('hidden');
+            this.elements.resultSuccess.style.display = 'none';
+            this.elements.resultError.style.display = 'block';
             this.elements.registerResult.style.backgroundColor = '#ffebee';
+            document.querySelector('.success-message').classList.add('hidden');
+            document.querySelector('.error-message').classList.remove('hidden');
         }
 
-        this.elements.resultMessage.textContent = message;
         this.elements.registerButton.disabled = false;
     }
 
@@ -463,5 +557,264 @@ class FormulaRegister {
         this.desmosCalculator.setBlank();
         this.elements.preview.style.display = 'none';
 
+    }
+
+    /**
+     * タグ検索処理
+     */
+    handleTagSearch() {
+        const searchText = this.elements.tagSearchInput.value.trim().toLowerCase();
+        
+        if (searchText === '') {
+            // 検索テキストが空の場合は全てのタグを表示（選択済みのものを除く）
+            this.tagsData.isCreatingNewTag = false;
+            this.elements.createNewTagContainer.classList.add('hidden');
+            this.filterAndRenderTagSuggestions();
+        } else {
+            // 検索テキストでタグをフィルタリング
+            const filteredTags = this.tagsData.allTags.filter(tag => 
+                (tag.name.toLowerCase().includes(searchText) || 
+                 tag.name_EN.toLowerCase().includes(searchText)) && 
+                !this.isTagSelected(tag.id)
+            );
+            
+            // フィルタリングされたタグを表示
+            this.tagsData.filteredTags = filteredTags;
+            this.renderTagSuggestions(filteredTags);
+            
+            // 完全一致するタグがない場合、新規タグ作成の表示
+            const exactMatch = filteredTags.some(tag => 
+                tag.name.toLowerCase() === searchText || 
+                tag.name_EN.toLowerCase() === searchText
+            );
+            
+            if (!exactMatch) {
+                this.tagsData.isCreatingNewTag = true;
+                this.elements.newTagNameDisplay.textContent = searchText;
+                this.elements.createNewTagContainer.classList.remove('hidden');
+            } else {
+                this.tagsData.isCreatingNewTag = false;
+                this.elements.createNewTagContainer.classList.add('hidden');
+            }
+        }
+    }
+
+    /**
+     * タグ検索でEnterキーを押した時の処理
+     */
+    handleEnterKeyInTagSearch() {
+        const searchText = this.elements.tagSearchInput.value.trim();
+        
+        if (!searchText) return;
+        
+        // フィルタリングされたタグが1つだけなら、それを選択
+        if (this.tagsData.filteredTags.length === 1) {
+            this.addTag(this.tagsData.filteredTags[0]);
+        }
+        // フィルタリングされたタグがなく、新規タグ作成モードなら新規タグを作成
+        else if (this.tagsData.filteredTags.length === 0 && this.tagsData.isCreatingNewTag) {
+            this.createNewTag(searchText);
+        }
+    }
+
+    /**
+     * 新規タグを作成
+     * @param {string} tagName - 新規タグの名前
+     */
+    createNewTag(tagName) {
+        // 新規タグのIDを生成（実際のシステムではサーバーからIDが割り当てられる）
+        // ここではクライアント側で仮のIDを生成して使用
+        const newTagId = `new_${Date.now()}`;
+        
+        // 新規タグを選択状態にする
+        this.addTag({
+            id: newTagId,
+            name: tagName,
+            name_EN: tagName, // 英語名は仮に同じにする（実際のシステムではAPI側で処理）
+            isNew: true // 新規タグのフラグ
+        });
+        
+        // 新規タグ作成モードを解除
+        this.tagsData.isCreatingNewTag = false;
+        this.elements.createNewTagContainer.classList.add('hidden');
+    }
+
+    /**
+     * タグ候補をフィルタリングして表示
+     */
+    filterAndRenderTagSuggestions() {
+        // 選択されていないタグのみ表示
+        const availableTags = this.tagsData.allTags.filter(tag => !this.isTagSelected(tag.id));
+        this.renderTagSuggestions(availableTags);
+    }
+
+    /**
+     * タグ候補を表示
+     * @param {Array} tags - 表示するタグの配列
+     */
+    renderTagSuggestions(tags) {
+        this.elements.tagSuggestionsList.innerHTML = '';
+        
+        if (tags.length === 0) {
+            // タグがない場合はメッセージを表示
+            const noTagsMessage = document.createElement('div');
+            noTagsMessage.className = 'no-tags-message';
+            noTagsMessage.textContent = getTranslation('no-tags-found', getLanguage());
+            this.elements.tagSuggestionsList.appendChild(noTagsMessage);
+            return;
+        }
+        
+        // 言語設定を取得
+        const lang = getLanguage();
+        
+        // タグをソート（日本語または英語名でアルファベット順）
+        tags.sort((a, b) => {
+            const nameA = lang === 'en' && a.name_EN ? a.name_EN : a.name;
+            const nameB = lang === 'en' && b.name_EN ? b.name_EN : b.name;
+            return nameA.localeCompare(nameB);
+        });
+        
+        // タグ候補要素を作成
+        tags.forEach(tag => {
+            const tagElement = document.createElement('div');
+            tagElement.className = 'tag-suggestion';
+            // 言語に応じた表示
+            tagElement.textContent = lang === 'en' && tag.name_EN ? tag.name_EN : tag.name;
+            
+            // クリックイベントでタグを追加
+            tagElement.addEventListener('click', () => {
+                this.addTag(tag);
+            });
+            
+            this.elements.tagSuggestionsList.appendChild(tagElement);
+        });
+    }
+
+    /**
+     * タグが選択されているか確認
+     * @param {string} tagId - タグID
+     * @returns {boolean} 選択されていればtrue
+     */
+    isTagSelected(tagId) {
+        return this.tagsData.selectedTags.some(tag => tag.id === tagId);
+    }
+
+    /**
+     * タグを追加
+     * @param {Object} tag - タグデータ {id, name, name_EN}
+     */
+    addTag(tag) {
+        // すでに選択されていれば何もしない
+        if (this.isTagSelected(tag.id)) return;
+        
+        // 選択されたタグリストに追加
+        this.tagsData.selectedTags.push(tag);
+        
+        // タグ要素を作成して選択済みタグコンテナに追加
+        const tagElement = document.createElement('div');
+        tagElement.className = 'selected-tag';
+        
+        // タグテキスト
+        const tagText = document.createElement('span');
+        tagText.className = 'selected-tag-text';
+        // 言語に応じた表示
+        const lang = getLanguage();
+        tagText.textContent = lang === 'en' && tag.name_EN ? tag.name_EN : tag.name;
+        
+        // 削除ボタン
+        const removeButton = document.createElement('button');
+        removeButton.className = 'selected-tag-remove';
+        removeButton.innerHTML = '<i class="fas fa-times"></i>';
+        removeButton.title = lang === 'en' ? 'Remove tag' : 'タグを削除';
+        
+        // 削除ボタンのクリックイベント
+        removeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.removeTag(tag.id);
+        });
+        
+        // 要素を組み立て
+        tagElement.appendChild(tagText);
+        tagElement.appendChild(removeButton);
+        
+        // コンテナに追加
+        this.elements.selectedTagsContainer.appendChild(tagElement);
+        
+        // 検索フィールドをクリアしてフォーカス
+        this.elements.tagSearchInput.value = '';
+        this.elements.tagSearchInput.focus();
+        
+        // 選択状態を更新
+        this.updateSelectedTagsInput();
+        
+        // タグ候補を再フィルタリング
+        this.filterAndRenderTagSuggestions();
+    }
+
+    /**
+     * タグを削除
+     * @param {string} tagId - 削除するタグのID
+     */
+    removeTag(tagId) {
+        // 選択されたタグリストから削除
+        this.tagsData.selectedTags = this.tagsData.selectedTags.filter(tag => tag.id !== tagId);
+        
+        // 選択済みタグコンテナを再レンダリング
+        this.renderSelectedTags();
+        
+        // タグ候補を再フィルタリング
+        this.filterAndRenderTagSuggestions();
+    }
+
+    /**
+     * 選択されたタグを再レンダリング
+     */
+    renderSelectedTags() {
+        this.elements.selectedTagsContainer.innerHTML = '';
+        
+        const lang = getLanguage();
+        
+        // 選択されたタグをレンダリング
+        this.tagsData.selectedTags.forEach(tag => {
+            const tagElement = document.createElement('div');
+            tagElement.className = 'selected-tag';
+            
+            // タグテキスト
+            const tagText = document.createElement('span');
+            tagText.className = 'selected-tag-text';
+            // 言語に応じた表示
+            tagText.textContent = lang === 'en' && tag.name_EN ? tag.name_EN : tag.name;
+            
+            // 削除ボタン
+            const removeButton = document.createElement('button');
+            removeButton.className = 'selected-tag-remove';
+            removeButton.innerHTML = '<i class="fas fa-times"></i>';
+            removeButton.title = lang === 'en' ? 'Remove tag' : 'タグを削除';
+            
+            // 削除ボタンのクリックイベント
+            removeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.removeTag(tag.id);
+            });
+            
+            // 要素を組み立て
+            tagElement.appendChild(tagText);
+            tagElement.appendChild(removeButton);
+            
+            // コンテナに追加
+            this.elements.selectedTagsContainer.appendChild(tagElement);
+        });
+        
+        // 選択状態を更新
+        this.updateSelectedTagsInput();
+    }
+
+    /**
+     * 選択されたタグの値を隠しフィールドに設定
+     */
+    updateSelectedTagsInput() {
+        // タグIDをカンマ区切りの文字列に変換
+        const tagIds = this.tagsData.selectedTags.map(tag => tag.id).join(',');
+        this.elements.tagsInput.value = tagIds;
     }
 }

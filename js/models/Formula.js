@@ -9,10 +9,13 @@ class Formula {
     constructor(data) {
         this.id = data.id || '';
         this.title = data.title || '';
-        this.formulaType = data.formula_type || '';
+        this.title_EN = data.title_EN || '';
+        // 修正: formulaTypeとformula_typeの両方に対応
+        this.formulaType = data.formula_type || data.formulaType || '';
         this.tags = Array.isArray(data.tags) ? data.tags : (data.tags ? data.tags.split(',').map(tag => tag.trim()) : []);
         this.formula = data.formula || '';
-        this.imageUrl = data.image_url || '';
+        // 修正: imageUrlとimage_urlの両方に対応
+        this.imageUrl = data.image_url || data.imageUrl || '';
     }
 
     /**
@@ -21,13 +24,18 @@ class Formula {
      * @returns {Formula} 数式オブジェクト
      */
     static fromSpreadsheetEntry(entry) {
+        // デバッグログを削除
+        
         return new Formula({
             id: entry.id || '',
             title: entry.title || '',
-            formula_type: entry.formula_type || '',
+            title_EN: entry.title_EN || '',
+            // 両方のプロパティ名に対応
+            formula_type: entry.formula_type || entry.formulaType || '',
             tags: entry.tags || [],
             formula: entry.formula || '',
-            image_url: entry.image_url || ''
+            // 両方のプロパティ名に対応
+            image_url: entry.image_url || entry.imageUrl || ''
         });
     }
 
