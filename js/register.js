@@ -45,7 +45,7 @@ class FormulaRegister {
         this.imgurClientId = 'fb9268d8cb1290a'; // ここにImgurのClient IDを設定
 
         // Google Apps Script URL
-        this.scriptUrl = 'https://script.google.com/macros/s/AKfycbywoehTE4UmExGoOLtus0Xr48X4_LCcc3RMxV2tnXezCMuvVntYZuWPzPL3OrvvWh-C/exec'; // ここにGoogle Apps ScriptのURLを設定
+        this.scriptUrl = 'https://script.google.com/macros/s/AKfycbzoaggjalkJVY0NbVjntDxxm3PWGpgdcieTczTXVrPWmx5lz7KquGptmY_qSjK0XGIu/exec'; // ここにGoogle Apps ScriptのURLを設定
 
         // タグ関連のデータ
         this.tagsData = {
@@ -66,6 +66,7 @@ class FormulaRegister {
         this.initDesmosCalculator();
 
         // タグデータを取得
+        
         this.fetchTagsData();
 
         // イベントリスナーを設定
@@ -103,9 +104,21 @@ class FormulaRegister {
     async fetchTagsData() {
         try {
             // DataServiceからタグリストを取得
-            const tagsData = await DataService.fetchDataTagsList();
+            const url = 'https://script.google.com/macros/s/AKfycbxoIgrjXYJ6tgvqoy83LWTFP61SZhm_UGgMZ4oJlLrwWUZrj1yPhOtZS6ocr1_mFoNW/exec?id=139qGcw2VXJRZF_zBLJ-wL-Lh8--hHZEFd0I1YYVsnqM&name=tagsList';
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const tagsList = await response.json();
+
+            if (!tagsList || !Array.isArray(tagsList) || tagsList.length === 0) {
+                return false;
+            }
             
-            this.tagsData.allTags = tagsData.map(tag => ({
+            this.tagsData.allTags = tagsList.map(tag => ({
                 id: tag.tagID.toString(),
                 name: tag.tagName || '',
                 name_EN: tag.tagName_EN || ''
@@ -557,6 +570,11 @@ class FormulaRegister {
         this.desmosCalculator.setBlank();
         this.elements.preview.style.display = 'none';
 
+        // 選択されているすべてのタグを削除
+        const selectedTagsCopy = [...this.tagsData.selectedTags];
+        selectedTagsCopy.forEach(tag => {
+            this.removeTag(tag.id);
+        });
     }
 
     /**
