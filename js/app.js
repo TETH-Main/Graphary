@@ -35,6 +35,7 @@ class App {
 
         // ハンバーガーメニューのクリックイベント
         hamburgerMenu.addEventListener('click', () => {
+            console.log('Hamburger menu clicked');
             hamburgerMenu.classList.toggle('active');
             mobileMenu.classList.toggle('active');
             body.classList.toggle('menu-open'); // スクロール防止
@@ -187,6 +188,7 @@ class App {
         // データを取得
         this.uiController.toggleLoading(true);
         const success = await this.dataService.fetchData();
+        console.log('Data fetch success:', success);
 
         if (success) {
             // タグと数式タイプを表示

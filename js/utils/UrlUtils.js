@@ -11,6 +11,8 @@ class UrlUtils {
 
         if (searchParams.keyword) {
             params.set('q', searchParams.keyword);
+        } else {
+            params.delete('q');
         }
 
         if (searchParams.selectedTags && searchParams.selectedTags.length > 0) {

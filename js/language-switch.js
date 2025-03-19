@@ -69,49 +69,47 @@ function updateLanguageUI(lang) {
     
     // プレースホルダーテキストも更新
     updatePlaceholders(lang);
+
+    // タグの言語を更新
+    if (window.app && window.app.formulaRegister) {
+        window.app.formulaRegister.renderSelectedTags(lang);
+    }
 }
 
 /**
  * 言語設定に応じてプレースホルダーを更新
  * @param {string} lang - 言語コード ('ja' or 'en')
  */
-function updatePlaceholders(lang) {
+async function updatePlaceholders(lang) {
     const placeholders = document.querySelectorAll('[data-translate-placeholder]');
-    
+    const translations = await fetchTranslations(lang);
+
     placeholders.forEach(element => {
         const key = element.getAttribute('data-translate-placeholder');
-        if (lang === 'en') {
-            switch(key) {
-                case 'keyword-search-placeholder':
-                    element.placeholder = 'Search by formula or type...';
-                    break;
-                case 'title-placeholder':
-                    element.placeholder = 'Example: Graph of Quadratic Function';
-                    break;
-                case 'tags-placeholder':
-                    element.placeholder = 'Example: quadratic function, parabola, algebra';
-                    break;
-                case 'report-reason-placeholder':
-                    element.placeholder = 'Please enter the reason for reporting...';
-                    break;
-                // 他のプレースホルダーを追加
-            }
-        } else {
-            switch(key) {
-                case 'keyword-search-placeholder':
-                    element.placeholder = '数式やタイプで検索...';
-                    break;
-                case 'title-placeholder':
-                    element.placeholder = '例: 二次関数のグラフ';
-                    break;
-                case 'tags-placeholder':
-                    element.placeholder = '例: 二次関数,放物線,代数学';
-                    break;
-                case 'report-reason-placeholder':
-                    element.placeholder = '報告理由を入力してください...';
-                    break;
-                // 他のプレースホルダーを追加
-            }
-        }
+        element.placeholder = translations[key] || element.placeholder;
     });
+
+    // Update text content for elements with data-translate attribute
+    const translatableElements = document.querySelectorAll('[data-translate]');
+    translatableElements.forEach(element => {
+        const key = element.getAttribute('data-translate');
+        element.textContent = translations[key] || element.textContent;
+    });
+
+    // Update text content for elements with data-translate-tag attribute
+    const translatableTags = document.querySelectorAll('[data-translate-tag]');
+    translatableTags.forEach(element => {
+        const tagName = element.getAttribute('data-translate-tag');
+        element.textContent = lang === 'en' ? element.dataset.tagNameEn : tagName;
+    });
+}
+
+/**
+ * 言語設定に応じた翻訳データを取得
+ * @param {string} lang - 言語コード ('ja' or 'en')
+ * @returns {Promise<Object>} 翻訳データ
+ */
+async function fetchTranslations(lang) {
+    const response = await fetch(`../locales/${lang}.json`);
+    return response.json();
 }

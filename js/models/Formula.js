@@ -10,11 +10,9 @@ class Formula {
         this.id = data.id || '';
         this.title = data.title || '';
         this.title_EN = data.title_EN || '';
-        // 修正: formulaTypeとformula_typeの両方に対応
         this.formulaType = data.formula_type || data.formulaType || '';
         this.tags = Array.isArray(data.tags) ? data.tags : (data.tags ? data.tags.split(',').map(tag => tag.trim()) : []);
         this.formula = data.formula || '';
-        // 修正: imageUrlとimage_urlの両方に対応
         this.imageUrl = data.image_url || data.imageUrl || '';
     }
 
@@ -30,11 +28,9 @@ class Formula {
             id: entry.id || '',
             title: entry.title || '',
             title_EN: entry.title_EN || '',
-            // 両方のプロパティ名に対応
             formula_type: entry.formula_type || entry.formulaType || '',
             tags: entry.tags || [],
             formula: entry.formula || '',
-            // 両方のプロパティ名に対応
             image_url: entry.image_url || entry.imageUrl || ''
         });
     }

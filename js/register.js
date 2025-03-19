@@ -65,8 +65,7 @@ class FormulaRegister {
         // Desmosグラフ計算機を初期化
         this.initDesmosCalculator();
 
-        // タグデータを取得
-        
+        // タグデータを取得  
         this.fetchTagsData();
 
         // イベントリスナーを設定
@@ -153,7 +152,6 @@ class FormulaRegister {
                 this.elements.preview.src = screenshot;
                 this.elements.preview.style.display = 'block';
             } catch (error) {
-                console.error('スクリーンショットエラー:', error);
                 alert('スクリーンショットの取得に失敗しました');
             }
         });
@@ -240,9 +238,7 @@ class FormulaRegister {
 
             // フォームをリセット
             this.resetForm();
-
         } catch (error) {
-            console.error('数式登録エラー:', error);
             this.showResult(false, `エラーが発生しました: ${error.message}`);
         }
     }
@@ -499,8 +495,8 @@ class FormulaRegister {
      * @returns {Promise<Object>} レスポンス
      */
     async sendToGoogleAppsScript(data, type) {
+        console.log('Sending data to GAS:', { ...data, type });
         try {
-            console.log('Sending data to GAS:', { ...data, type });
             
             const response = await fetch(this.scriptUrl, {
                 method: 'POST',
@@ -525,7 +521,8 @@ class FormulaRegister {
      * 処理状態を表示
      * @param {string} message - 表示するメッセージ
      */
-    showStatus() {
+    showStatus(message) {
+        console.log('Showing status:', message);
         this.elements.registerStatus.classList.remove('hidden');
         this.elements.statusMessage.setAttribute('data-translate', 'processing-message');
         this.elements.registerResult.classList.add('hidden');
@@ -537,7 +534,8 @@ class FormulaRegister {
      * @param {boolean} success - 成功したかどうか
      * @param {string} message - 表示するメッセージ
      */
-    showResult(success) {
+    showResult(success, message) {
+        console.log('Showing result:', success, message);
         this.elements.registerStatus.classList.add('hidden');
         this.elements.registerResult.classList.remove('hidden');
 
@@ -640,6 +638,7 @@ class FormulaRegister {
      * @param {string} tagName - 新規タグの名前
      */
     createNewTag(tagName) {
+        console.log('Creating new tag:', tagName);
         // 新規タグのIDを生成（実際のシステムではサーバーからIDが割り当てられる）
         // ここではクライアント側で仮のIDを生成して使用
         const newTagId = `new_${Date.now()}`;
@@ -698,7 +697,9 @@ class FormulaRegister {
             tagElement.className = 'tag-suggestion';
             // 言語に応じた表示
             tagElement.textContent = lang === 'en' && tag.name_EN ? tag.name_EN : tag.name;
-            
+            tagElement.setAttribute('data-translate-tag', tag.name); // Add data-translate-tag attribute
+            tagElement.dataset.tagNameEn = tag.name_EN; // Store English name for translation
+
             // クリックイベントでタグを追加
             tagElement.addEventListener('click', () => {
                 this.addTag(tag);

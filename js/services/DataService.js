@@ -42,6 +42,7 @@ class DataService {
             }
             return true;
         } catch (error) {
+            console.error('Error fetching data:', error);
             return false;
         }
     }
@@ -86,9 +87,9 @@ class DataService {
                     this.tagNameToId[tag.tagName_EN] = tagId;
                 }
             });
-
             return true;
         } catch (error) {
+            console.error('Error fetching tags list:', error);
             return false;
         }
     }
@@ -99,7 +100,6 @@ class DataService {
      */
     processData(data) {
         // データ形式に応じて処理を変更
-        
         // データがnullや空の場合の処理
         if (!data || data.length === 0) {
             return;
@@ -233,49 +233,6 @@ class DataService {
     }
 
     /**
-     * 検索条件に基づいて数式をフィルタリング
-     * @param {Object} searchParams - 検索パラメータ
-     * @returns {Array} フィルタリングされた数式の配列
-     */
-    filterFormulas(searchParams) {
-        const { keyword, selectedTags, selectedFormulaTypes } = searchParams;
-
-        return this.formulas.filter(formula => {
-            // キーワード検索
-            const matchesKeyword = !keyword ||
-                formula.formula.toLowerCase().includes(keyword.toLowerCase()) ||
-                formula.formulaType.toLowerCase().includes(keyword.toLowerCase()) ||
-                (formula.title && formula.title.toLowerCase().includes(keyword.toLowerCase())) ||
-                formula.id.toString().includes(keyword);
-
-            // タグ検索
-            const matchesTags = !selectedTags || selectedTags.length === 0 ||
-                selectedTags.every(tag => {
-                    // タグ名またはタグIDで検索
-                    if (formula.tags.includes(tag)) {
-                        return true;
-                    }
-                    // タグ名に対応するIDがあれば、そのIDも検索
-                    const tagId = this.getTagIdByName(tag);
-                    if (tagId && formula.tagIds && formula.tagIds.includes(tagId)) {
-                        return true;
-                    }
-                    return false;
-                });
-
-            // 数式タイプ検索
-            const matchesFormulaTypes = !selectedFormulaTypes || selectedFormulaTypes.length === 0 ||
-                selectedFormulaTypes.some(type => {
-                    // 数式タイプがカンマ区切りの場合を考慮
-                    const formulaTypes = formula.formulaType.split(',').map(t => t.trim());
-                    return formulaTypes.includes(type);
-                });
-
-            return matchesKeyword && matchesTags && matchesFormulaTypes;
-        });
-    }
-
-    /**
      * 数式を指定された条件でソート
      * @param {Array} formulas - ソートする数式の配列
      * @param {string} sortOption - ソートオプション
@@ -303,43 +260,11 @@ class DataService {
     }
 
     /**
-     * タグの使用頻度を集計
-     * @returns {Object} タグとその使用頻度のマップ
-     */
-    getTagCounts() {
-        const tagCounts = {};
-
-        this.formulas.forEach(formula => {
-            formula.tags.forEach(tag => {
-                if (tag) {
-                    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-                }
-            });
-        });
-
-        return tagCounts;
-    }
-
-    /**
      * すべての数式タイプを取得
      * @returns {Array} 数式タイプの配列
      */
     getAllFormulaTypes() {
         return Array.from(this.formulaTypes).sort();
-    }
-
-    /**
-     * 使用頻度順にソートされたタグを取得
-     * @param {number} limit - 取得するタグの最大数
-     * @returns {Array} タグの配列
-     */
-    getPopularTags(limit = 15) {
-        const tagCounts = this.getTagCounts();
-
-        // 使用頻度順にソート
-        return Object.keys(tagCounts)
-            .sort((a, b) => tagCounts[b] - tagCounts[a])
-            .slice(0, limit);
     }
 
     /**
@@ -390,17 +315,6 @@ class DataService {
                 this.setDataLoadedCallback(resolve);
             }
         });
-    }
-
-    static async fetchFormulas() {
-        const response = await fetch('./js/services/data.json');
-        const data = await response.json();
-        return data.map(item => new Formula(item));
-    }
-
-    static async fetchDataTagsList() {
-        const response = await fetch('./js/services/tagList.json');
-        return await response.json();
     }
 
     /**

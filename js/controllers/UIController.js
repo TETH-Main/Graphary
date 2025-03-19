@@ -123,6 +123,7 @@ class UIController {
      * @param {number} endIndex - 終了インデックス
      */
     renderFormulas(formulas, startIndex, endIndex) {
+        console.log('Rendering formulas from index', startIndex, 'to', endIndex);
         this.elements.formulaGrid.innerHTML = '';
 
         const formulasToShow = formulas.slice(startIndex, endIndex);
@@ -707,20 +708,5 @@ class UIController {
      */
     _getLocalizedFormulaType(type) {
         return translateFormulaType(type, this.lang);
-    }
-
-    static displayFormulas(formulas, lang) {
-        const formulaGrid = document.getElementById('formula-grid');
-        formulaGrid.innerHTML = '';
-        formulas.forEach(formula => {
-            const title = lang === 'en' ? formula.title_EN : formula.title;
-            const formulaCard = `
-                <div class="formula-card">
-                    <img src="${formula.imageUrl}" alt="${title}">
-                    <h3>${title}</h3>
-                </div>
-            `;
-            formulaGrid.innerHTML += formulaCard;
-        });
     }
 }
