@@ -110,6 +110,6 @@ async function updatePlaceholders(lang) {
  * @returns {Promise<Object>} 翻訳データ
  */
 async function fetchTranslations(lang) {
-    const response = await fetch(`../locales/${lang}.json`);
+    const response = await fetch(`./locales/${lang}.json`);
     return response.json();
 }
