@@ -95,6 +95,16 @@ class FormulaRegister {
                 this.elements.latexInput.value = this.getDesmosFormula3D();
             });    
         };
+        
+        // [+][-]がDesmosグラフ計算機が同時に挿入されるわけではないので3秒待つ
+        setTimeout(() => {
+            const buttons = this.elements.desmosContainer.querySelectorAll('button');
+            console.log(buttons);
+            buttons.forEach(button => {
+                button.type = 'button';
+            });
+        }, 3000);
+
     }
 
     /**
@@ -137,7 +147,7 @@ class FormulaRegister {
         // フォーム送信イベント
         this.elements.form.addEventListener('submit', (e) => {
             // Desmosコンテナ内のボタンがクリックされた場合は送信を防止
-            if (e.submitter && e.submitter.closest('#desmos-calculator') && !e.submitter.hasAttribute('role')) {
+            if (e.submitter && e.submitter.classList.contains('dcg-unstyled-button')) {
                 e.preventDefault();
                 return;
             }
