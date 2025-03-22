@@ -1016,7 +1016,6 @@ footer p {
 /* ページタイトルのスタイル */
 .page-title {
     color: var(--primary-color);
-    margin: 20px 30px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--primary-color);
 }
@@ -1144,8 +1143,6 @@ footer p {
 .register-form-container {
     background-color: white;
     border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .register-form-container h2 {

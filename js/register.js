@@ -99,7 +99,6 @@ class FormulaRegister {
         // [+][-]がDesmosグラフ計算機が同時に挿入されるわけではないので3秒待つ
         setTimeout(() => {
             const buttons = this.elements.desmosContainer.querySelectorAll('button');
-            console.log(buttons);
             buttons.forEach(button => {
                 button.type = 'button';
             });
