@@ -143,7 +143,7 @@ class DataService {
                 formula.tags = convertedTags.filter(tag => tag); // 空のタグを除外
                 
                 // 元のタグIDも保持
-                formula.tagIds = [...entry.tags];
+                formula.tagIds = entry.tags.split(',').map(tag => tag.trim());
             }
             
             return formula;

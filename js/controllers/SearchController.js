@@ -118,17 +118,6 @@ class SearchController {
      */
     _filterFormulas() {
         const { keyword, selectedTags, selectedFormulaTypes } = this.searchParams;
-        
-        // タグID配列を準備（言語非依存の検索のため）
-        const selectedTagIds = [];
-        if (selectedTags && selectedTags.length > 0) {
-            selectedTags.forEach(tagName => {
-                const tagId = this.dataService.getTagIdByName(tagName);
-                if (tagId) {
-                    selectedTagIds.push(tagId);
-                }
-            });
-        }
 
         return this.dataService.formulas.filter(formula => {
             // キーワード検索
@@ -148,8 +137,8 @@ class SearchController {
                     }
                     
                     // タグIDを使用して一致するか確認
-                    const tagId = this.dataService.getTagIdByName(tagName);
-                    return tagId && formula.tagIds && formula.tagIds.includes(tagId);
+                    const tagId = this.dataService.getTagIdByName(tagName);                    // console.log('formula.tagIds:', formula.tagIds);
+                    return tagId && formula.tagIds && formula.tagIds.some(id => id === tagId);
                 });
 
             // 数式タイプ検索
