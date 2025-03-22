@@ -123,7 +123,6 @@ class UIController {
      * @param {number} endIndex - 終了インデックス
      */
     renderFormulas(formulas, startIndex, endIndex) {
-        console.log('Rendering formulas from index', startIndex, 'to', endIndex);
         this.elements.formulaGrid.innerHTML = '';
 
         const formulasToShow = formulas.slice(startIndex, endIndex);

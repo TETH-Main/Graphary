@@ -22,6 +22,9 @@ class App {
         };
 
         this.formulaRegister = new FormulaRegister();
+        this.registerModal = document.getElementById('register-modal');
+        this.registerFab = document.getElementById('register-fab');
+        this.registerModalClose = document.getElementById('register-modal-close');
     }
 
     /**
@@ -35,7 +38,6 @@ class App {
 
         // ハンバーガーメニューのクリックイベント
         hamburgerMenu.addEventListener('click', () => {
-            console.log('Hamburger menu clicked');
             hamburgerMenu.classList.toggle('active');
             mobileMenu.classList.toggle('active');
             body.classList.toggle('menu-open'); // スクロール防止
@@ -188,7 +190,6 @@ class App {
         // データを取得
         this.uiController.toggleLoading(true);
         const success = await this.dataService.fetchData();
-        console.log('Data fetch success:', success);
 
         if (success) {
             // タグと数式タイプを表示
@@ -206,6 +207,9 @@ class App {
         }
 
         this.uiController.toggleLoading(false);
+
+        // フローティングボタンとモーダルのイベントリスナーを設定
+        this.setupRegisterModalEvents();
     }
 
     /**
@@ -275,6 +279,26 @@ class App {
 
         this.uiController.renderFormulas(filteredFormulas, startIndex, endIndex);
         this.paginationController.updatePagination();
+    }
+
+    /**
+     * フローティングボタンとモーダルのイベントリスナーを設定
+     */
+    setupRegisterModalEvents() {
+        this.registerFab.addEventListener('click', () => {
+            this.registerModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        this.registerModalClose.addEventListener('click', () => {
+            this.registerModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+
+        this.registerModal.querySelector('.modal-overlay').addEventListener('click', () => {
+            this.registerModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
     }
 }
 

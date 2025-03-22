@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
+    <meta name="description"
+        content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
     <link rel="apple-touch-icon" sizes="180x180" href="https://teth-main.github.io/Graphary/img/apple-touch-icon.png" />
     <link rel="icon" sizes="32x32" href="https://teth-main.github.io/Graphary/img/icon-32x32.png" />
     <link rel="icon" sizes="16x16" href="https://teth-main.github.io/Graphary/img/icon-16x16.png" />
     <meta property="og:url" content="https://teth-main.github.io/Graphary/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Math Graph Art Library" />
-    <meta property="og:description" content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
+    <meta property="og:description"
+        content="This library full of math graph art. Search for abundant functions and figures by tag and find hints for creation." />
     <meta property="og:site_name" content="Graphary" />
     <meta property="og:image" content="https://teth-main.github.io/Graphary/img/card.png" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -47,12 +49,11 @@
                 <ul>
                     <li><a href="#" class="nav-link active" data-page="search" data-translate="search">検索</a></li>
                     <li><a href="#" class="nav-link" data-page="how-to-use" data-translate="how-to-use">使い方</a></li>
-                    <li><a href="#" class="nav-link" data-page="register" data-translate="register">数式登録</a></li>
                 </ul>
                 <div class="language-switch">
                     <button id="lang-jp" class="lang-button active" data-lang="ja">JP</button>
                     <button id="lang-en" class="lang-button" data-lang="en">EN</button>
-                </div>    
+                </div>
             </nav>
         </div>
 
@@ -76,12 +77,6 @@
                             <a href="#" class="nav-link" data-page="how-to-use">
                                 <span class="menu-icon"><i class="fas fa-book-open"></i></span>
                                 <span class="menu-text" data-translate="how-to-use">使い方</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link" data-page="register">
-                                <span class="menu-icon"><i class="fas fa-plus-circle"></i></span>
-                                <span class="menu-text" data-translate="register">数式登録</span>
                             </a>
                         </li>
                     </ul>
@@ -112,7 +107,8 @@
                     <div class="search-container">
                         <div class="search-box">
                             <h3 data-translate="keyword-search">キーワード検索</h3>
-                            <input type="text" id="keyword-search" class="search-input" placeholder="数式やタイプで検索..." data-translate-placeholder="keyword-search-placeholder">
+                            <input type="text" id="keyword-search" class="search-input" placeholder="数式やタイプで検索..."
+                                data-translate-placeholder="keyword-search-placeholder">
                         </div>
 
                         <div class="search-box">
@@ -187,7 +183,8 @@
                         <div class="how-to-item">
                             <div class="how-to-text">
                                 <h3 data-translate="keyword-search">キーワード検索</h3>
-                                <p data-translate="keyword-search-description">検索ボックスに数式のタイトル、数式自体、または数式タイプに含まれる単語を入力して検索できます。</p>
+                                <p data-translate="keyword-search-description">
+                                    検索ボックスに数式のタイトル、数式自体、または数式タイプに含まれる単語を入力して検索できます。</p>
                                 <p data-translate="keyword-search-example">例: 「二次方程式」「sin」「微分」など</p>
                             </div>
                         </div>
@@ -195,7 +192,8 @@
                         <div class="how-to-item">
                             <div class="how-to-text">
                                 <h3 data-translate="tag-search">タグ検索</h3>
-                                <p data-translate="tag-search-description">タグをクリックして、特定のカテゴリに属する数式を検索できます。複数のタグを選択すると、すべてのタグに一致する数式が表示されます。</p>
+                                <p data-translate="tag-search-description">
+                                    タグをクリックして、特定のカテゴリに属する数式を検索できます。複数のタグを選択すると、すべてのタグに一致する数式が表示されます。</p>
                                 <p data-translate="tag-search-example">例: 「円」「四角」「繰り返し」など</p>
                             </div>
                         </div>
@@ -214,14 +212,21 @@
                         <div class="how-to-item">
                             <div class="how-to-text">
                                 <h3 data-translate="formula-card">数式カード</h3>
-                                <p data-translate="formula-card-description">検索結果は数式カードとして表示されます。各カードには以下の情報が含まれています：</p>
+                                <p data-translate="formula-card-description">検索結果は数式カードとして表示されます。各カードには以下の情報が含まれています：
+                                </p>
                                 <ul>
-                                    <li><strong data-translate="image">画像:</strong> <span data-translate="image-description">数式の視覚的表現</span></li>
-                                    <li><strong data-translate="title">タイトル:</strong> <span data-translate="title-description">数式の名前や説明</span></li>
-                                    <li><strong data-translate="formula-type">数式タイプ:</strong> <span data-translate="formula-type-description">数式の分類（画像の右上に表示）</span></li>
-                                    <li><strong data-translate="formula">数式:</strong> <span data-translate="formula-description">コピー可能な形式の数式</span></li>
-                                    <li><strong data-translate="tags">タグ:</strong> <span data-translate="tags-description">関連するキーワード</span></li>
-                                    <li><strong data-translate="id">ID:</strong> <span data-translate="id-description">数式の固有識別子</span></li>
+                                    <li><strong data-translate="image">画像:</strong> <span
+                                            data-translate="image-description">数式の視覚的表現</span></li>
+                                    <li><strong data-translate="title">タイトル:</strong> <span
+                                            data-translate="title-description">数式の名前や説明</span></li>
+                                    <li><strong data-translate="formula-type">数式タイプ:</strong> <span
+                                            data-translate="formula-type-description">数式の分類（画像の右上に表示）</span></li>
+                                    <li><strong data-translate="formula">数式:</strong> <span
+                                            data-translate="formula-description">コピー可能な形式の数式</span></li>
+                                    <li><strong data-translate="tags">タグ:</strong> <span
+                                            data-translate="tags-description">関連するキーワード</span></li>
+                                    <li><strong data-translate="id">ID:</strong> <span
+                                            data-translate="id-description">数式の固有識別子</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -229,50 +234,102 @@
                         <div class="how-to-item">
                             <div class="how-to-text">
                                 <h3 data-translate="copy-formula">数式のコピー</h3>
-                                <p data-translate="copy-formula-description">数式の横にあるコピーボタン（<i class="fas fa-copy"></i>）をクリックすると、数式をクリップボードにコピーできます。</p>
-                                <p data-translate="copy-formula-instruction">コピーした数式は、LaTeXをサポートするエディタやドキュメントに貼り付けることができます。</p>
+                                <p data-translate="copy-formula-description">数式の横にあるコピーボタン（<i
+                                        class="fas fa-copy"></i>）をクリックすると、数式をクリップボードにコピーできます。</p>
+                                <p data-translate="copy-formula-instruction">
+                                    コピーした数式は、LaTeXをサポートするエディタやドキュメントに貼り付けることができます。</p>
                             </div>
+                        </div>
+                    </section>
+
+                    <section class="how-to-section">
+                        <h2 data-translate="register-steps">3. 数式登録の手順</h2>
+                        <div class="register-info">
+                            <ol>
+                                <li>
+                                    <h3 data-translate="basic-info">基本情報を入力</h3>
+                                    <p data-translate="basic-info-description">数式のタイトル、タイプ、関連するタグを入力してください。</p>
+                                </li>
+                                <li>
+                                    <h3 data-translate="create-formula">Desmosで数式を作成</h3>
+                                    <p data-translate="create-formula-description">Desmosグラフ計算機に数式を入力し、グラフを作成してください。
+                                    </p>
+                                </li>
+                                <li>
+                                    <h3 data-translate="click-register">登録ボタンをクリック</h3>
+                                    <p data-translate="click-register-description">
+                                        すべての情報を入力したら「登録」ボタンをクリックしてください。数式と画像が自動的に登録されます。</p>
+                                </li>
+                            </ol>
                         </div>
                     </section>
                 </div>
             </div>
         </section>
+    </div>
 
-        <!-- 数式登録フォームページ -->
-        <section id="register-page" class="page">
-            <div class="container">
+    <footer class="footer">
+        <div class="container footer-container">
+            <p class="copyright" data-translate="footer">
+                &copy; <span id="currentYear"></span> 【彳▼亍 ▼てきちょく】関数アート検索
+            </p>
+            <div class="footer-links">
+                <a href="https://x.com/TETH_Main" target="_blank" rel="noopener noreferrer"
+                    class="footer-link">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 数式モーダル -->
+    <div id="formula-modal" class="formula-modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button id="modal-close" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modal-content" class="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- 報告モーダル -->
+    <div id="report-modal" class="report-modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button id="report-close" class="modal-close">&times;</button>
+            <div class="modal-content">
+                <h2 data-translate="report-reason">報告理由</h2>
+                <textarea id="report-reason" placeholder="報告理由を入力してください..."
+                    data-translate-placeholder="report-reason-placeholder"></textarea>
+                <button id="report-submit" data-translate="report-submit">送信</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数式登録用のフローティングボタン -->
+    <button id="register-fab" class="register-fab">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- 数式登録モーダル -->
+    <div id="register-modal" class="register-modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button id="register-modal-close" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-content">
+                <!-- 数式登録フォームの内容をここに移動 -->
                 <h1 class="page-title" data-translate="register-title">数式登録フォーム</h1>
-
                 <div class="register-content">
-                    <!-- 登録手順の説明 -->
-                    <div class="register-info">
-                        <h2 data-translate="register-steps">数式登録の手順</h2>
-                        <ol>
-                            <li>
-                                <h3 data-translate="basic-info">基本情報を入力</h3>
-                                <p data-translate="basic-info-description">数式のタイトル、タイプ、関連するタグを入力してください。</p>
-                            </li>
-                            <li>
-                                <h3 data-translate="create-formula">Desmosで数式を作成</h3>
-                                <p data-translate="create-formula-description">Desmosグラフ計算機に数式を入力し、グラフを作成してください。</p>
-                            </li>
-                            <li>
-                                <h3 data-translate="click-register">登録ボタンをクリック</h3>
-                                <p data-translate="click-register-description">すべての情報を入力したら「登録」ボタンをクリックしてください。数式と画像が自動的に登録されます。</p>
-                            </li>
-                        </ol>
-                    </div>
-
-                    <!-- 登録フォーム -->
                     <div class="register-form-container">
                         <h2 data-translate="register-form">数式登録フォーム</h2>
-
-                        <!-- フォーム部分 -->
                         <form id="formula-register-form" class="formula-form">
                             <!-- タイトル入力 -->
                             <div class="form-group">
-                                <label for="formula-title" data-translate="title">タイトル <span class="required">*</span></label>
-                                <input type="text" id="formula-title" name="title" required placeholder="例: 二次関数のグラフ" data-translate-placeholder="title-placeholder">
+                                <label for="formula-title" data-translate="title">タイトル <span
+                                        class="required">*</span></label>
+                                <input type="text" id="formula-title" name="title" required placeholder="例: 二次関数のグラフ"
+                                    data-translate-placeholder="title-placeholder">
                             </div>
 
                             <!-- タイプ選択（チェックボックス） -->
@@ -280,59 +337,71 @@
                                 <label data-translate="formula-type">数式タイプ <span class="required">*</span></label>
                                 <div class="checkbox-group" id="formula-type-checkboxes">
                                     <label class="checkbox-label">
-                                        <input type="checkbox" name="formula_type" value="関数"> <span data-translate="function">関数</span>
+                                        <input type="checkbox" name="formula_type" value="関数"> <span
+                                            data-translate="function">関数</span>
                                     </label>
                                     <label class="checkbox-label">
-                                        <input type="checkbox" name="formula_type" value="陰関数"> <span data-translate="implicit-function">陰関数</span>
+                                        <input type="checkbox" name="formula_type" value="陰関数"> <span
+                                            data-translate="implicit-function">陰関数</span>
                                     </label>
                                     <label class="checkbox-label">
-                                        <input type="checkbox" name="formula_type" value="媒介変数"> <span data-translate="parametric">媒介変数</span>
+                                        <input type="checkbox" name="formula_type" value="媒介変数"> <span
+                                            data-translate="parametric">媒介変数</span>
                                     </label>
                                     <label class="checkbox-label">
-                                        <input type="checkbox" name="formula_type" value="極座標"> <span data-translate="polar">極座標</span>
+                                        <input type="checkbox" name="formula_type" value="極座標"> <span
+                                            data-translate="polar">極座標</span>
                                     </label>
                                     <label class="checkbox-label">
-                                        <input type="checkbox" name="formula_type" value="複素数"> <span data-translate="complex">複素数</span>
+                                        <input type="checkbox" name="formula_type" value="複素数"> <span
+                                            data-translate="complex">複素数</span>
                                     </label>
                                     <label class="checkbox-label">
-                                        <input type="checkbox" name="formula_type" value="3D"> <span data-translate="3d">3D</span>
+                                        <input type="checkbox" name="formula_type" value="3D"> <span
+                                            data-translate="3d">3D</span>
                                     </label>
                                 </div>
                             </div>
 
                             <!-- タグ入力 -->
                             <div class="form-group">
-                                <label for="formula-tags" data-translate="tags">タグ（カンマ区切り） <span class="required">*</span></label>
-                                
+                                <label for="formula-tags" data-translate="tags">タグ（カンマ区切り） <span
+                                        class="required">*</span></label>
+
                                 <!-- 選択済みタグ表示エリア -->
                                 <div class="tag-selection-container">
                                     <div class="selected-tags-container" id="selected-tags-container">
                                         <!-- 選択されたタグがここに動的に表示されます -->
                                     </div>
-                                    
+
                                     <!-- タグ検索フィールド -->
                                     <div class="tag-search-container">
                                         <i class="fas fa-search tag-search-icon"></i>
-                                        <input type="text" id="tag-search" class="tag-search-input" placeholder="タグを検索..." data-translate-placeholder="search-tags-placeholder">
+                                        <input type="text" id="tag-search" class="tag-search-input"
+                                            placeholder="タグを検索..." data-translate-placeholder="search-tags-placeholder">
                                     </div>
-                                    
+
                                     <!-- タグ候補 -->
                                     <div class="tag-suggestions-container">
                                         <div class="tag-suggestions-header">
-                                            <span class="tag-suggestions-title" data-translate="available-tags">追加可能なタグ</span>
+                                            <span class="tag-suggestions-title"
+                                                data-translate="available-tags">追加可能なタグ</span>
                                             <button type="button" id="add-new-tag" class="add-new-tag-button">
-                                                <i class="fas fa-plus-circle"></i> <span data-translate="create-new-tag">新規タグ作成</span>
+                                                <i class="fas fa-plus-circle"></i> <span
+                                                    data-translate="create-new-tag">新規タグ作成</span>
                                             </button>
                                         </div>
                                         <div class="tag-suggestions-list" id="tag-suggestions-list">
                                             <!-- タグ候補がここに動的に表示されます -->
                                         </div>
                                         <div id="create-new-tag-container" class="create-new-tag hidden">
-                                            <span data-translate="will-create-tag">新しいタグ「</span><span class="create-new-tag-name" id="new-tag-name"></span><span>」を作成します</span>
+                                            <span data-translate="will-create-tag">新しいタグ「</span><span
+                                                class="create-new-tag-name"
+                                                id="new-tag-name"></span><span>」を作成します</span>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- 隠しフィールド - 選択されたタグIDを保存 -->
                                 <input type="hidden" id="formula-tags" name="tags" value="">
                             </div>
@@ -341,8 +410,7 @@
                             <div class="form-group">
                                 <label data-translate="formula-input">数式入力<span class="required">*</span></label>
                                 <div class="version-switch">
-                                    <input type="radio" name="version" id="version-2d" value="version-2d"
-                                        checked />
+                                    <input type="radio" name="version" id="version-2d" value="version-2d" checked />
                                     <label for="version-2d">2D</label>
                                     <input type="radio" name="version" id="version-3d" value="version-3d" />
                                     <label for="version-3d">3D</label>
@@ -387,7 +455,8 @@
 
                             <!-- 送信ボタン -->
                             <div class="form-actions">
-                                <button type="submit" id="register-button" class="register-button" data-translate="register-button">
+                                <button type="submit" id="register-button" class="register-button"
+                                    data-translate="register-button">
                                     <i class="fas fa-upload"></i> 数式を登録する
                                 </button>
                             </div>
@@ -409,47 +478,13 @@
                             <div class="result-icon error hidden">
                                 <i class="fas fa-exclamation-circle"></i>
                             </div>
-                            <div class="result-message success-message hidden" data-translate="result-message-success">アップロード成功！数式が登録されました。</div>
-                            <div class="result-message error-message hidden" data-translate="result-message-error">エラーが発生しました: </div>
+                            <div class="result-message success-message hidden" data-translate="result-message-success">
+                                アップロード成功！数式が登録されました。</div>
+                            <div class="result-message error-message hidden" data-translate="result-message-error">
+                                エラーが発生しました: </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
-
-    <footer class="footer">
-        <div class="container footer-container">
-            <p class="copyright" data-translate="footer">
-                &copy; <span id="currentYear"></span> 【彳▼亍 ▼てきちょく】関数アート検索
-            </p>
-            <div class="footer-links">
-                <a href="https://x.com/TETH_Main" target="_blank" rel="noopener noreferrer"
-                    class="footer-link">Twitter</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- 数式モーダル -->
-    <div id="formula-modal" class="formula-modal hidden">
-        <div class="modal-overlay"></div>
-        <div class="modal-container">
-            <button id="modal-close" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-            <div id="modal-content" class="modal-content"></div>
-        </div>
-    </div>
-
-    <!-- 報告モーダル -->
-    <div id="report-modal" class="report-modal hidden">
-        <div class="modal-overlay"></div>
-        <div class="modal-container">
-            <button id="report-close" class="modal-close">&times;</button>
-            <div class="modal-content">
-                <h2 data-translate="report-reason">報告理由</h2>
-                <textarea id="report-reason" placeholder="報告理由を入力してください..." data-translate-placeholder="report-reason-placeholder"></textarea>
-                <button id="report-submit" data-translate="report-submit">送信</button>
             </div>
         </div>
     </div>

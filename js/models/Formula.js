@@ -14,7 +14,6 @@ class Formula {
         this.tags = Array.isArray(data.tags) ? data.tags : (data.tags ? data.tags.split(',').map(tag => tag.trim()) : []);
         this.formula = data.formula || '';
         this.imageUrl = data.image_url || data.imageUrl || '';
-        console.log(this.tags);
     }
 
     /**
