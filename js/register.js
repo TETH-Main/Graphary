@@ -327,7 +327,6 @@ class FormulaRegister {
             .join(',');
 
         // LaTeX形式の数式
-        this.elements.latexInput.value = this.getDesmosFormula();
         const formula = this.elements.latexInput.value.trim();
 
         return {
