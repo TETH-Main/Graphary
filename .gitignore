@@ -2,7 +2,7 @@
 .env
 
 # Generated Firebase config (if containing secrets locally)
-# js/firebase-config.js
+js/firebase-config.js
 
 # Other gitignore entries...
 node_modules/
