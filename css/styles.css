@@ -7,8 +7,9 @@
     --card-background: #fff;
     --border-color: #e0e0e0;
     --text-muted: #666666;
-    --background: #ffffff;
-    --border: #e0e0e0;
+    --formula-bg: #f8f8f8;
+    --formula-type-bg: rgba(74, 134, 232, 0.9);
+    --filter-tag-active: #4a86e8;
 }
 
 /* Base styles */
@@ -113,7 +114,6 @@ header .container {
 }
 
 /* ハンバーガーメニューがアクティブ時のスタイル */
-
 .hamburger-menu.active {
     background-color: rgba(255, 255, 255, 0.2);
 }
@@ -148,7 +148,6 @@ header .container {
     transition: opacity 0.4s, visibility 0.4s;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    /* Safari用 */
 }
 
 .mobile-menu.active {
@@ -166,7 +165,6 @@ header .container {
     box-sizing: border-box;
     z-index: 1001;
 }
-
 
 .mobile-menu-header {
     padding: 15px 0;
@@ -322,7 +320,6 @@ header .container {
 @media (max-width: 768px) {
     .hamburger-menu {
         display: flex;
-        /* モバイル画面ではハンバーガーメニューを表示 */
     }
 
     /* モバイルメニューを表示 */
@@ -333,640 +330,6 @@ header .container {
     /* ページがスクロールできないようにする（メニュー表示時） */
     body.menu-open {
         overflow: hidden;
-    }
-}
-
-/* Search section styles */
-.search-section {
-    padding: 30px 0;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-.search-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-.search-box h3 {
-    margin-bottom: 10px;
-    color: var(--primary-color);
-}
-
-.search-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.tag-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.tag {
-    background-color: #e0e0e0;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    white-space: nowrap;
-}
-
-.tag.selected {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.filters {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-}
-
-@media (min-width: 768px) {
-    .filters {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.filter-group {
-    margin-bottom: 15px;
-}
-
-.filter-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.filter-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-}
-
-.formulas-container {
-    padding: 30px 0;
-}
-
-.formula-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-    line-height: 1.3;
-}
-
-.formula-id-small {
-    font-size: 12px;
-    color: #888;
-    text-align: right;
-    margin-top: 10px;
-    font-style: italic;
-    white-space: nowrap;
-    align-self: flex-end;
-}
-
-.search-results {
-    margin-bottom: 20px;
-}
-
-.search-results h2 {
-    margin-bottom: 10px;
-    color: var(--primary-color);
-}
-
-.thumbnail {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-    /* 16:9 Aspect Ratio */
-    overflow: hidden;
-}
-
-.thumbnail img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.duration {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 3px 6px;
-    border-radius: 4px;
-    font-size: 12px;
-}
-
-/* Pagination styles */
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.pagination button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    margin: 0 5px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.pagination button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.pagination button:hover:not(:disabled) {
-    background-color: #3a76d8;
-}
-
-.page-info {
-    margin: 0 15px;
-    display: flex;
-    align-items: center;
-}
-
-/* Settings styles */
-.settings {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.settings label {
-    margin-right: 10px;
-}
-
-.settings select {
-    padding: 5px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-}
-
-/* Footer styles */
-footer {
-    background-color: #333;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-    margin-top: 50px;
-}
-
-footer p {
-    margin: 5px 0;
-}
-
-.footer {
-    background-color: var(--background);
-    border-top: 1px solid var(--border);
-    padding: 1.5rem 0;
-    margin-top: 3rem;
-}
-
-.footer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.copyright {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    text-align: center;
-}
-
-.footer-links {
-    display: flex;
-    gap: 1rem;
-}
-
-.footer-link {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-}
-
-.footer-link:hover {
-    color: var(--primary-color);
-}
-
-/* Utility classes */
-.hidden {
-    display: none;
-}
-
-.command-input {
-    padding: 10px;
-    width: 100%;
-    max-width: 400px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-}
-
-.loading {
-    text-align: center;
-    padding: 20px;
-}
-
-.loading i {
-    font-size: 30px;
-    color: var(--primary-color);
-    animation: spin 1s infinite linear;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* Sort container styles */
-.sort-container {
-    margin-bottom: 20px;
-}
-
-.sort-container label {
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-.sort-container select {
-    padding: 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    min-width: 150px;
-}
-
-.no-results {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 30px;
-    background-color: #f8f8f8;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
-
-/* 限定公開動画テーブルのスタイル */
-.secret-videos-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background-color: var(--card-background);
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.secret-videos-table th,
-.secret-videos-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.secret-videos-table th {
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: bold;
-}
-
-.secret-videos-table tr:last-child td {
-    border-bottom: none;
-}
-
-.secret-videos-table tr:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.02);
-}
-
-.secret-videos-table tr:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.secret-videos-table a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-.secret-videos-table a:hover {
-    text-decoration: underline;
-}
-
-/* 説明文が長い場合の処理 */
-.secret-videos-table td:last-child {
-    max-width: 300px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-@media (max-width: 768px) {
-    .secret-videos-table {
-        font-size: 14px;
-    }
-
-    .secret-videos-table th,
-    .secret-videos-table td {
-        padding: 8px 10px;
-    }
-
-    .secret-videos-table td:last-child {
-        max-width: 150px;
-    }
-}
-
-@media (min-width: 768px) {
-    .footer-container {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .copyright {
-        text-align: left;
-    }
-}
-
-/* 数式カードのスタイル */
-.formula-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.formula-card {
-    background-color: var(--card-background);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-    display: flex;
-    flex-direction: row;
-}
-
-.formula-card:hover {
-    transform: translateY(-5px);
-}
-
-.formula-image {
-    width: 300px;
-    min-width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f5f5f5;
-    overflow: hidden;
-    padding: 10px;
-    position: relative;
-}
-
-.formula-image img {
-    max-width: 100%;
-    max-height: 160px;
-    object-fit: contain;
-}
-
-/* 画像上の数式タイプコンテナ */
-.image-type-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 5px;
-    z-index: 5;
-}
-
-/* 画像上の数式タイプタグ */
-.image-type-tag {
-    background-color: rgba(74, 134, 232, 0.9);
-    color: white;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-size: 12px;
-    display: inline-block;
-    backdrop-filter: blur(2px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.formula-info {
-    flex: 1;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.formula-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.formula-id {
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-right: 10px;
-}
-
-.formula-type {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-.formula-content {
-    background-color: #f8f8f8;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    position: relative;
-    border: 1px solid #e0e0e0;
-    display: flex;
-    align-items: stretch;
-    min-height: 50px;
-}
-
-.formula-scroll-container {
-    flex: 1;
-    overflow-x: auto;
-    padding: 12px;
-    border-right: 1px solid #e0e0e0;
-}
-
-.formula-text {
-    font-family: 'Courier New', monospace;
-    white-space: nowrap;
-}
-
-.copy-button-container {
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f8f8;
-}
-
-.copy-button {
-    background: none;
-    border: none;
-    color: #666;
-    cursor: pointer;
-    padding: 5px;
-    transition: color 0.3s;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.copy-button:hover {
-    color: var(--primary-color);
-    background-color: #e8e8e8;
-}
-
-.tag-id-container {
-    align-items: flex-start;
-    margin-top: 10px;
-    display: flex;
-}
-
-.formula-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    flex: 1;
-    margin-right: 15px;
-}
-
-.formula-tag {
-    background-color: #f0f0f0;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.formula-tag:hover {
-    background-color: #e0e0e0;
-}
-
-/* 数式タイプ選択のスタイル */
-.formula-type-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-}
-
-.formula-type-tag {
-    background-color: #e0e0e0;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.formula-type-tag:hover {
-    background-color: #d0d0d0;
-}
-
-.formula-type-tag.selected {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.formula-type-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-bottom: 15px;
-}
-
-.formula-type-tags.selected {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.formula-type-tag-item {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-size: 14px;
-    display: inline-block;
-}
-
-/* レスポンシブデザイン */
-@media (max-width: 768px) {
-    .formula-title {
-        font-size: 16px;
-    }
-
-    .formula-card {
-        flex-direction: column;
-    }
-
-    .formula-image {
-        width: 100%;
-        height: 200px;
-        min-width: auto;
-    }
-
-    .formula-image img {
-        max-height: 180px;
-    }
-
-    .formula-content {
-        flex-direction: row;
-    }
-
-    .copy-button-container {
-        width: 36px;
-    }
-
-    .copy-button {
-        width: 28px;
-        height: 28px;
-    }
-
-    .image-type-container {
-        top: 5px;
-        right: 5px;
-    }
-
-    .image-type-tag {
-        font-size: 10px;
-        padding: 2px 6px;
     }
 }
 
@@ -1004,6 +367,442 @@ footer p {
     font-weight: bold;
 }
 
+/* Search section styles */
+.search-section {
+    padding: 30px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.search-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.search-box h3 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #aaa;
+    cursor: pointer;
+    display: none;
+}
+
+.search-clear-btn:hover {
+    color: #666;
+}
+
+.tag-container, .formula-type-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.filter-tag, .type-tag, .tag {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    border: none;
+}
+
+.filter-tag:hover, .type-tag:hover, .tag:hover {
+    background-color: #d0d0d0;
+}
+
+.filter-tag.active, .type-tag.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.formulas-container {
+    padding: 30px 0;
+}
+
+/* Active filters */
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    display: none; /* 初期状態では非表示 */
+}
+
+.active-filter {
+    background-color: var(--filter-tag-active);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.remove-filter {
+    cursor: pointer;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+.remove-filter:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.clear-all-filters {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    margin-left: auto;
+}
+
+.clear-all-filters:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Loader */
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.loading i {
+    font-size: 30px;
+    color: var(--primary-color);
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Sort container styles */
+.sort-container {
+    margin-bottom: 20px;
+}
+
+.sort-container label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.sort-container select {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.search-results {
+    margin-bottom: 20px;
+}
+
+.search-results h2 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+/* Settings styles */
+.settings {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.settings label {
+    margin-right: 10px;
+}
+
+.settings select {
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* 数式カードのスタイル */
+.formula-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    display: flex;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-left {
+    width: 300px;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.formula-type-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    z-index: 5;
+}
+
+.formula-type-item {
+    background-color: rgba(74, 134, 232, 0.9);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.card-right {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.card-formula-container {
+    position: relative;
+    margin-bottom: 1rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+.card-formula {
+    background-color: var(--formula-bg);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    font-family: 'Consolas', monospace;
+    white-space: pre;
+    overflow-x: auto;
+    position: relative;
+    min-height: 60px;
+}
+
+.copy-button:hover {
+    color: var(--primary-color);
+    background-color: #e8e8e8;
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: auto;
+    margin-bottom: 1.5rem;
+}
+
+.tag {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.tag:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.card-id {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    font-style: italic;
+    white-space: nowrap;
+    align-self: flex-end;
+}
+
+.no-results {
+    text-align: center;
+    padding: 30px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0 20px; /* Increased top margin */
+    gap: 8px; /* Slightly reduced gap */
+    flex-wrap: wrap;
+}
+
+.page-button {
+    background-color: #fff; /* White background */
+    color: var(--primary-color); /* Primary color text */
+    border: 1px solid var(--border-color); /* Subtle border */
+    padding: 10px 16px; /* Increased padding */
+    margin: 0 2px; /* Reduced margin */
+    border-radius: 6px; /* Slightly more rounded corners */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* Smooth transition for multiple properties */
+    font-weight: 500; /* Medium font weight */
+    min-width: 40px; /* Ensure minimum width */
+    text-align: center;
+}
+
+.page-button:disabled {
+    background-color: #f5f5f5; /* Lighter background for disabled */
+    color: #aaa; /* Lighter text color */
+    border-color: #eee;
+    cursor: not-allowed;
+}
+
+.page-button:hover:not(:disabled):not(.active) {
+    background-color: #f0f5ff; /* Light blue background on hover */
+    border-color: var(--primary-color); /* Primary color border on hover */
+    color: var(--primary-color);
+}
+
+.page-button.active {
+    background-color: var(--primary-color); /* Primary color background for active */
+    color: white; /* White text for active */
+    border-color: var(--primary-color); /* Match border color */
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(74, 134, 232, 0.3); /* Subtle shadow for active */
+}
+
+.page-info {
+    margin-top: 15px;
+    text-align: center;
+    color: var(--text-muted); /* Use text-muted color */
+    font-size: 14px;
+    width: 100%;
+}
+
+.page-ellipsis {
+    padding: 10px 8px; /* Add padding for alignment */
+    color: var(--text-muted); /* Muted color */
+    align-self: center; /* Vertically align with buttons */
+}
+
+/* Footer styles */
+.footer {
+    background-color: var(--background);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.copyright {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-link {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+}
+
 /* ページコンテナのスタイル */
 .page {
     display: none;
@@ -1018,6 +817,8 @@ footer p {
     color: var(--primary-color);
     padding-bottom: 10px;
     border-bottom: 2px solid var(--primary-color);
+    font-size: 24px;
+    margin: 20px
 }
 
 /* 使い方ページのスタイル */
@@ -1079,283 +880,74 @@ footer p {
     margin-bottom: 5px;
 }
 
-.full-width {
-    width: 100%;
-}
-
-.cta-button-container {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.cta-button {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.cta-button:hover {
-    background-color: #3a76d8;
-}
-
-/* 数式登録フォームページのスタイル */
-.register-content {
+/* Language switch styles */
+.language-switch {
     display: flex;
-    flex-direction: column;
-    gap: 30px;
+    margin-left: 20px;
+    gap: 8px;
 }
 
-.register-info {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.register-info h2 {
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-.register-info h3 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    color: var(--primary-color);
-}
-
-.register-info ol {
-    padding-left: 20px;
-}
-
-.register-info li {
-    margin-bottom: 20px;
-}
-
-.register-info ul {
-    padding-left: 20px;
-}
-
-.register-form-container {
-    background-color: white;
-    border-radius: 8px;
-}
-
-.register-form-container h2 {
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-.google-form-button-container {
-    margin: 30px 0;
-    text-align: center;
-}
-
-.google-form-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #4285F4;
+.language-switch .lang-button {
+    background-color: transparent;
     color: white;
-    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    gap: 10px;
-}
-
-.google-form-button:hover {
-    background-color: #3367D6;
-}
-
-.google-form-button i {
-    font-size: 20px;
-}
-
-.form-note {
-    text-align: center;
+    padding: 5px 12px;
+    cursor: pointer;
     font-size: 14px;
-    color: #666;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
-.form-preview {
-    margin-top: 30px;
+.language-switch .lang-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-.form-preview h3 {
-    margin-bottom: 15px;
-    color: var(--primary-color);
+.language-switch .lang-button.active {
+    background-color: var(--secondary-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.form-preview-image {
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-/* 数式登録フォームのスタイル */
-.formula-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-group label {
-    color: #333;
-}
-
-.required {
-    color: #e74c3c;
-    margin-left: 3px;
-}
-
-.form-group input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.form-group input[type="text"]:focus {
-    border-color: var(--primary-color);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(74, 134, 232, 0.2);
-}
-
-/* チェックボックスグループ */
-.checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-}
-
-.checkbox-label input[type="checkbox"] {
-    margin: 0;
-}
-
-/* Desmos コンテナ */
-.desmos-container {
-    width: 100%;
-    height: 600px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: #f9f9f9;
-}
-
-.desmos-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    color: #666;
-}
-
-/* 送信ボタン */
-.form-actions {
-    margin-top: 10px;
+/* Mobile language switch styles */
+.language-switch-mobile {
     display: flex;
     justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
 }
 
-.register-button {
-    background-color: var(--primary-color);
+.language-switch-mobile .lang-button {
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 4px;
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: 10px 20px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background-color 0.3s;
-}
-
-.register-button:hover {
-    background-color: #3a76d8;
-}
-
-.register-button:disabled {
-    background-color: #a0a0a0;
-    cursor: not-allowed;
-}
-
-/* 登録状態表示 */
-.register-status {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 4px;
-    background-color: #f8f9fa;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.status-spinner {
-    font-size: 24px;
-    color: var(--primary-color);
-}
-
-.status-message {
+    font-size: 16px;
     font-weight: bold;
-    color: #555;
+    transition: all 0.3s ease;
+    width: 80px;
 }
 
-/* 登録結果表示 */
-.register-result {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+.language-switch-mobile .lang-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
-.result-icon {
-    font-size: 48px;
+.language-switch-mobile .lang-button.active {
+    background-color: var(--secondary-color);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-.result-icon.success {
-    color: #2ecc71;
-}
+/* Responsive styles */
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
-.result-icon.error {
-    color: #e74c3c;
-}
-
-.result-message {
-    font-weight: bold;
-    text-align: center;
-}
-
-.hidden {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .checkbox-group {
-        gap: 8px;
+    .copyright {
+        text-align: left;
     }
 }
 
@@ -1382,87 +974,51 @@ footer p {
         min-height: 150px;
     }
 
-    .register-content {
+    .card {
         flex-direction: column;
     }
-}
 
-@media (min-width: 992px) {
-    .register-info {
-        flex: 1;
+    .card-left {
+        width: 100%;
+        height: 200px;
+        min-width: auto;
     }
 
-    .register-form-container {
-        flex: 1;
+    .card-image {
+        max-height: 180px;
+    }
+
+    .formula-type-badge {
+        top: 5px;
+        right: 5px;
+    }
+
+    .formula-type-item {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+    
+    .sort-container {
+        margin-bottom: 15px;
+    }
+
+    .settings {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .settings label {
+        margin-bottom: 5px;
     }
 }
 
-/* Desmos */
-#calculator, #calculator-3d {
-    width: 100%;
-    height: 600px;
-    border: none;
-    overflow: hidden;
-}
-
-/* form */
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: flex-end;
-    column-gap: 15px;
-}
-
-.form-group {
-    margin-bottom: 10px;
-}
-
-label {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-}
-
-.form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + 0.75rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.card-body {
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1.25rem;
-}
-
-.col {
-    position: relative;
-}
-
-.stretch {
-    flex: 1;
-}
-
-#screenshot-button {
-    margin-bottom: 10px;
-}
-
-#preview {
-    display: block;
-    margin: auto;
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    width: 100%;
-    height: auto;
+/* Utility classes */
+.hidden {
+    display: none;
 }
 
 /* 数式モーダルのスタイル */
@@ -1605,20 +1161,27 @@ label {
     overflow-x: auto;
     padding: 15px;
     border-right: 1px solid #e0e0e0;
+    margin-right: 50px; /* コピーボタンのためのスペース確保 */
 }
 
 .modal-formula-text {
     font-family: 'Courier New', monospace;
-    white-space: nowrap;
+    white-space: pre;
     font-size: 18px;
 }
 
 .modal-copy-button-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
     width: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f8f8f8;
+    background-color: #eef2f7;
+    border-left: 1px solid #e0e0e0;
+    border-radius: 0 8px 8px 0;
 }
 
 .modal-copy-button {
@@ -1626,20 +1189,20 @@ label {
     border: none;
     color: #666;
     cursor: pointer;
-    padding: 5px;
-    transition: color 0.3s;
+    padding: 0;
     width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 4px;
     font-size: 18px;
+    transition: all 0.2s ease;
 }
 
 .modal-copy-button:hover {
     color: var(--primary-color);
-    background-color: #e8e8e8;
+    background-color: rgba(74, 134, 232, 0.1);
 }
 
 .modal-tag-id-container {
@@ -1676,6 +1239,30 @@ label {
     padding: 5px 10px;
 }
 
+/* 旗アイコンボタン */
+.report-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.report-icon:hover {
+    color: #c0392b;
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
 @media (max-width: 768px) {
     .modal-container {
         padding: 15px;
@@ -1700,518 +1287,122 @@ label {
         padding: 5px 10px;
     }
 
-    .modal-copy-button-container {
-        width: 40px;
+    .modal-copy-button-container {        width: 40px;
     }
 }
 
-/* 報告スタイル */
-.report-button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background-color: #e74c3c;
-    color: white;
-    padding: 10px 20px;
-    border: none;
+/* 数式カードのコンテンツ部分のスタイル改善 */
+.formula-content {
+    background-color: #f8f8f8;
     border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    margin-bottom: 15px;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: stretch;
+    min-height: 50px;
 }
 
-.report-button:hover {
-    background-color: #c0392b;
+.formula-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    padding: 12px;
+    border-right: 1px solid #e0e0e0;
+    margin-right: 40px; /* コピーボタンのためのスペース確保 */
 }
 
-.report-modal {
-    position: fixed;
+.formula-text {
+    font-family: 'Courier New', monospace;
+    white-space: pre;
+}
+
+.copy-button-container {
+    position: absolute;
+    right: 0;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2000;
+    bottom: 0;
+    width: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.3s ease;
+    background-color: #eef2f7;
+    border-left: 1px solid #e0e0e0;
+    border-radius: 0 4px 4px 0;
 }
 
-.report-modal.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.report-modal .modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.report-modal .modal-container {
-    position: relative;
-    width: 90%;
-    max-width: 500px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-    overflow: auto;
-    z-index: 2001;
-    padding: 25px;
-    transition: transform 0.3s ease;
-    transform: translateY(0);
-}
-
-.report-modal .modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+.copy-button {
     background: none;
     border: none;
     color: #666;
-    font-size: 20px;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s;
-}
-
-.report-modal .modal-close:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: var(--primary-color);
-}
-
-.report-modal .modal-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.report-modal .modal-content h2 {
-    font-size: 22px;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 10px;
-}
-
-.report-modal .modal-content textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    resize: none;
-    /* テキストエリアをリサイズ不可に */
-
-}
-
-.report-modal .modal-content button {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.report-modal .modal-content button:hover {
-    background-color: #3a76d8;
-}
-
-/* モーダルウィンドウのスタイル */
-.modal-container {
-    position: relative;
-    padding: 25px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-    max-width: 900px;
-    max-height: 90vh;
-    overflow: auto;
-}
-
-/* 報告アイコンのスタイル */
-.report-icon {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    color: #e74c3c;
-    font-size: 24px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.report-icon:hover {
-    color: #c0392b;
-}
-
-/* 2d/3d switch */
-.version-switch {
-    position: relative;
-    display: flex;
-}
-
-.version-switch input {
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
-    pointer-events: none;
-}
-
-.version-switch>label {
-    display: block;
-    padding: 0.25rem 1.375rem;
-    font-size: 1.375rem;
-    color: #007bff;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    border: 1px solid #007bff;
-    border-radius: 0.375rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.version-switch>input:checked+label {
-    color: #fff;
-    background-color: #007bff;
-}
-
-.version-switch>label:not(:first-of-type) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.version-switch>label:not(:last-of-type) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-/* タグ選択コンポーネントのスタイル */
-.tag-selection-container {
-    margin-bottom: 15px;
-}
-
-.selected-tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    min-height: 36px;
-    padding: 5px 0;
-}
-
-.selected-tag {
-    display: flex;
-    align-items: center;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 4px 10px;
-    border-radius: 16px;
-    font-size: 14px;
-    max-width: 100%;
-}
-
-.selected-tag-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.selected-tag-remove {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    margin-left: 6px;
     padding: 0;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
-.tag-search-container {
+/* モーダル内の数式コンテンツ部分も同様に修正 */
+.modal-formula-content {
+    background-color: #f8f8f8;
+    border-radius: 8px;
     position: relative;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: stretch;
+    min-height: 60px;
 }
 
-.tag-search-input {
-    width: 100%;
-    padding: 10px 10px 10px 36px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 16px;
+.modal-formula-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    padding: 15px;
+    border-right: 1px solid #e0e0e0;
+    margin-right: 50px; /* コピーボタンのためのスペース確保 */
 }
 
-.tag-search-icon {
+.modal-formula-text {
+    font-family: 'Courier New', monospace;
+    white-space: pre;
+    font-size: 18px;
+}
+
+.modal-copy-button-container {
     position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    color: #999;
-}
-
-.tag-suggestions-container {
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    padding: 10px;
-    margin-top: 10px;
-}
-
-.tag-suggestions-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.tag-suggestions-title {
-    font-size: 14px;
-    font-weight: bold;
-    color: #666;
-}
-
-.add-new-tag-button {
-    background: none;
-    border: none;
-    color: var(--primary-color);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.add-new-tag-button:hover {
-    background-color: rgba(74, 134, 232, 0.1);
-}
-
-.tag-suggestions-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    max-height: 150px;
-    overflow-y: auto;
-    padding: 5px 0;
-}
-
-.tag-suggestion {
-    background-color: #e0e0e0;
-    color: #333;
-    padding: 5px 10px;
-    border-radius: 16px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    user-select: none;
-}
-
-.tag-suggestion:hover {
-    background-color: #d0d0d0;
-}
-
-.create-new-tag {
-    background-color: #e8f5e9;
-    border-left: 3px solid #4caf50;
-    padding: 8px 12px;
-    border-radius: 4px;
-}
-
-.create-new-tag-name {
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-/* レスポンシブデザイン対応 */
-@media (max-width: 768px) {
-    .tag-suggestions-list {
-        max-height: 120px;
-    }
-}
-
-/* Language switch styles */
-.language-switch {
-    display: flex;
-    margin-left: 20px;
-    gap: 8px;
-}
-
-.language-switch .lang-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.language-switch .lang-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.language-switch .lang-button.active {
-    background-color: var(--secondary-color);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Mobile language switch styles */
-.language-switch-mobile {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.language-switch-mobile .lang-button {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    width: 80px;
-}
-
-.language-switch-mobile .lang-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.language-switch-mobile .lang-button.active {
-    background-color: var(--secondary-color);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .language-switch {
-        display: none;
-    }
-}
-
-/* フローティングアクションボタンのスタイル */
-.register-fab {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    z-index: 1000;
-    transition: background-color 0.3s;
-}
-
-.register-fab:hover {
-    background-color: #3a76d8;
-}
-
-/* 数式登録モーダルのスタイル */
-.register-modal {
-    position: fixed;
+    right: 0;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2000;
+    bottom: 0;
+    width: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.3s ease;
+    background-color: #eef2f7;
+    border-left: 1px solid #e0e0e0;
+    border-radius: 0 8px 8px 0;
 }
 
-.register-modal.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.register-modal .modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.register-modal .modal-container {
-    position: relative;
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-    overflow: auto;
-    z-index: 2001;
-    padding: 25px;
-    transition: transform 0.3s ease;
-    transform: translateY(0);
-}
-
-.register-modal .modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+.modal-copy-button {
     background: none;
     border: none;
     color: #666;
-    font-size: 20px;
     cursor: pointer;
+    padding: 0;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s;
+    border-radius: 4px;
+    font-size: 18px;
+    transition: all 0.2s ease;
 }
 
-.register-modal .modal-close:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+.modal-copy-button:hover {
     color: var(--primary-color);
-}
-
-.register-modal .modal-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    background-color: rgba(74, 134, 232, 0.1);
 }
 
 .custom-fab {
@@ -2242,4 +1433,231 @@ label {
 
 .custom-fab:hover {
     background-color: #2e4e7f;
+}
+
+/* Formula card grid */
+.formula-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Formula card */
+.formula-card {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.formula-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Formula image section */
+.formula-image {
+    width: 300px;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+}
+
+.formula-image img {
+    max-width: 100%;
+    max-height: 160px;
+    object-fit: contain;
+}
+
+/* Image type container */
+.image-type-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    z-index: 5;
+}
+
+.image-type-tag {
+    background-color: var(--formula-type-bg);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Formula info section */
+.formula-info {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.formula-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+/* Formula content */
+.formula-content {
+    background-color: var(--formula-bg);
+    border-radius: 4px;
+    margin-bottom: 15px;
+    position: relative;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: stretch;
+    min-height: 50px;
+}
+
+.formula-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    padding: 12px;
+}
+
+.formula-text {
+    font-family: 'Courier New', monospace;
+    white-space: pre;
+    font-size: 14px;
+}
+
+/* Copy button */
+.copy-button-container {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+}
+
+.copy-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Tag and ID container */
+.tag-id-container {
+    margin-top: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.formula-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex: 1;
+}
+
+.formula-tag {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.formula-tag:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.formula-id-small {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    white-space: nowrap;
+    text-align: right;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .formula-card {
+        flex-direction: column;
+    }
+
+    .formula-image {
+        width: 100%;
+        height: 200px;
+        min-width: auto;
+    }
+
+    .formula-image img {
+        max-height: 180px;
+    }
+
+    .image-type-container {
+        top: 5px;
+        right: 5px;
+    }
+
+    .image-type-tag {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+
+    .formula-info {
+        padding: 12px;
+    }
+
+    .formula-title {
+        font-size: 16px;
+    }
+
+    .formula-text {
+        font-size: 13px;
+    }
+
+    .copy-button-container {
+        width: 36px;
+    }
+
+    .copy-button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .formula-tag {
+        font-size: 11px;
+        padding: 2px 6px;
+    }
+
+    .formula-id-small {
+        font-size: 11px;
+    }
 }

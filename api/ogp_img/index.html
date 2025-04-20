@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>OGP Image Generator</title>
+  <meta name="robots" content="noindex">
+  <style>
+    body { background: #222; color: #fff; text-align: center; }
+    #ogp-canvas { display: block; margin: 32px auto; background: #eee; border-radius: 32px; }
+    #download-btn { margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <canvas id="ogp-canvas" width="1200" height="630"></canvas>
+  <div>
+    <button id="download-btn">画像をダウンロード</button>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { firebaseConfig } from "../../js/firebase-config.js";
+    import { DataService } from "../../js/modules/dataService.js";
+
+    // クエリ取得
+    const params = new URLSearchParams(location.search);
+    const formulaId = params.get('formulaId');
+    const lang = params.get('lang') === 'en' ? 'en' : 'jp';
+
+    // Firebase初期化
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const dataService = new DataService(db);
+    dataService.setLanguage(lang);
+
+    // 画像生成
+    async function drawOGP() {
+      // タグデータ・カードデータ取得
+      await dataService.loadTags();
+      await dataService.loadFormulaCards();
+      const card = dataService.getCardById(formulaId);
+      if (!card) {
+        drawError("Not found");
+        return;
+      }
+
+      // キャンバス準備
+      const canvas = document.getElementById('ogp-canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 背景画像(card.png)
+      await new Promise((resolve, reject) => {
+        const bg = new Image();
+        bg.src = "../../img/card.png";
+        bg.onload = () => {
+          ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+          resolve();
+        };
+        bg.onerror = reject;
+      });
+
+      // 角丸白背景
+      const rectX = 60, rectY = 30, rectW = canvas.width - 120, rectH = canvas.height - 120; // rectYを30にして上へ
+      ctx.save();
+      ctx.beginPath();
+      const r = 48;
+      ctx.moveTo(rectX + r, rectY);
+      ctx.lineTo(rectX + rectW - r, rectY);
+      ctx.quadraticCurveTo(rectX + rectW, rectY, rectX + rectW, rectY + r);
+      ctx.lineTo(rectX + rectW, rectY + rectH - r);
+      ctx.quadraticCurveTo(rectX + rectW, rectY + rectH, rectX + rectW - r, rectY + rectH);
+      ctx.lineTo(rectX + r, rectY + rectH);
+      ctx.quadraticCurveTo(rectX, rectY + rectH, rectX, rectY + rectH - r);
+      ctx.lineTo(rectX, rectY + r);
+      ctx.quadraticCurveTo(rectX, rectY, rectX + r, rectY);
+      ctx.closePath();
+      ctx.globalAlpha = 0.8; // 透明度0.8
+      ctx.fillStyle = "#fff";
+      ctx.shadowColor = "rgba(0,0,0,0.10)";
+      ctx.shadowBlur = 16;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+      ctx.restore();
+
+      // image_url画像（中央・アスペクト比維持・黒枠付き・サイズ大きめ）
+      if (card.image_url) {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = card.image_url;
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+        const maxW = rectW * 0.8, maxH = rectH * 0.60; // サイズを大きく
+        let drawW = img.width, drawH = img.height;
+        const aspect = img.width / img.height;
+        if (drawW > maxW) {
+          drawW = maxW;
+          drawH = drawW / aspect;
+        }
+        if (drawH > maxH) {
+          drawH = maxH;
+          drawW = drawH * aspect;
+        }
+        const imgX = rectX + (rectW - drawW) / 2;
+        const imgY = rectY + rectH * 0.10 + (maxH - drawH) / 2;
+
+        // 黒枠を描画（角丸なし）
+        ctx.save();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#000";
+        ctx.strokeRect(imgX - 4, imgY - 4, drawW + 8, drawH + 8);
+        ctx.restore();
+
+        // 画像本体
+        ctx.drawImage(img, imgX, imgY, drawW, drawH);
+      }
+
+      // タイトル（多言語対応・フォントサイズ小さく）
+      let cardTitle = card.title;
+      if (lang === 'en' && card.title_EN) cardTitle = card.title_EN;
+      ctx.save();
+      ctx.font = "bold 38px 'Segoe UI', 'Noto Sans JP', sans-serif"; // 48px→38px
+      ctx.fillStyle = "#222";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
+      ctx.shadowColor = "rgba(255,255,255,0.2)";
+      ctx.shadowBlur = 0;
+      // 複数行対応
+      const titleLines = wrapText(ctx, cardTitle, rectW * 0.9);
+      let titleY = rectY + rectH * 0.78;
+      titleLines.forEach((line, i) => {
+        ctx.fillText(line, rectX + rectW / 2, titleY + i * 44); // 行間も小さく
+      });
+      ctx.restore();
+
+      // クレジット（角丸の下、白文字・小さめ）
+      ctx.save();
+      ctx.font = "bold 28px 'Segoe UI', 'Noto Sans JP', sans-serif";
+      ctx.fillStyle = "#fff";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "bottom";
+      ctx.shadowColor = "rgba(0,0,0,0.4)";
+      ctx.shadowBlur = 4;
+      ctx.fillText("関数図書館｜Graphary by @TETH_Main", canvas.width / 2, canvas.height - 32);
+      ctx.restore();
+    }
+
+    // テキスト折り返し
+    function wrapText(ctx, text, maxWidth) {
+      const words = text.split(' ');
+      let lines = [], line = '';
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + (line ? ' ' : '') + words[n];
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          lines.push(line);
+          line = words[n];
+        } else {
+          line = testLine;
+        }
+      }
+      lines.push(line);
+      return lines;
+    }
+
+    // エラー描画
+    function drawError(msg) {
+      const canvas = document.getElementById('ogp-canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#333";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = "bold 48px sans-serif";
+      ctx.fillStyle = "#fff";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(msg, canvas.width / 2, canvas.height / 2);
+    }
+
+    // ダウンロードボタン
+    document.getElementById('download-btn').onclick = function() {
+      const canvas = document.getElementById('ogp-canvas');
+      const link = document.createElement('a');
+      link.download = 'ogp.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    };
+
+    // 実行
+    drawOGP();
+  </script>
+</body>
+</html>

@@ -19,18 +19,12 @@
     <meta property="og:image" content="https://teth-main.github.io/Graphary/img/card.png" />
     <meta name="thumbnail" content="https://teth-main.github.io/Graphary/img/card.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="google-site-verification" content="41R4-BVK93DtdzwWRr9YK8RdXwl1hyLpMQr3iyG09GU" />
     <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
     <title>関数図書館 | Graphary</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="js/translate.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const lang = getLanguage();
-            await loadTranslations(lang);
-        });
-    </script>
+    <link rel="stylesheet" href="css/report.css">
+    <link rel="stylesheet" href="css/register.css">
 </head>
 
 <body>
@@ -54,7 +48,7 @@
                     <li><a href="#" class="nav-link" data-page="how-to-use" data-translate="how-to-use">使い方</a></li>
                 </ul>
                 <div class="language-switch">
-                    <button id="lang-jp" class="lang-button active" data-lang="ja">JP</button>
+                    <button id="lang-jp" class="lang-button active" data-lang="jp">JP</button>
                     <button id="lang-en" class="lang-button" data-lang="en">EN</button>
                 </div>
             </nav>
@@ -86,13 +80,13 @@
                 </nav>
 
                 <div class="language-switch-mobile">
-                    <button id="lang-jp-mobile" class="lang-button active" data-lang="ja">JP</button>
+                    <button id="lang-jp-mobile" class="lang-button active" data-lang="jp">JP</button>
                     <button id="lang-en-mobile" class="lang-button" data-lang="en">EN</button>
                 </div>
 
                 <div class="mobile-menu-footer">
                     <p data-translate="footer">
-                        &copy; <span id="currentYear"></span> 【彳▼亍 ▼てきちょく】関数アート検索
+                        &copy; © Math Graph Art Search by TETH_Main
                     </p>
                 </div>
             </div>
@@ -100,7 +94,6 @@
             <!-- 背景エフェクト用の要素 -->
             <div class="menu-background-effect"></div>
         </div>
-
     </header>
 
     <div id="page-container">
@@ -110,20 +103,21 @@
                     <div class="search-container">
                         <div class="search-box">
                             <h3 data-translate="keyword-search">キーワード検索</h3>
-                            <input type="text" id="keyword-search" class="search-input" placeholder="数式やタイプで検索..."
+                            <input type="text" id="search-input" class="search-input" placeholder="数式やタイプで検索..."
                                 data-translate-placeholder="keyword-search-placeholder">
+                            <button id="search-clear" class="search-clear-btn">×</button>
                         </div>
 
                         <div class="search-box">
                             <h3 data-translate="tag-search">タグ検索</h3>
-                            <div class="tag-container" id="tag-container">
+                            <div class="tag-container" id="tags-filter">
                                 <!-- タグはJavaScriptで動的に生成 -->
                             </div>
                         </div>
 
                         <div class="search-box">
                             <h3 data-translate="formula-type-search">数式タイプ検索</h3>
-                            <div class="formula-type-container" id="formula-type-container">
+                            <div class="formula-type-container" id="formula-types-filter">
                                 <!-- 数式タイプはJavaScriptで動的に生成 -->
                             </div>
                         </div>
@@ -135,9 +129,14 @@
                 <div class="container">
                     <div class="search-results">
                         <h2 data-translate="search-results">検索結果</h2>
+
+                        <div class="active-filters" id="active-filters">
+                            <!-- アクティブフィルターがここに表示されます -->
+                        </div>
+
                         <div class="sort-container">
-                            <label for="sort-select" data-translate="sort">並び替え</label>
-                            <select id="sort-select" class="filter-input">
+                            <label for="sort-option" data-translate="sort">並び替え</label>
+                            <select id="sort-option" class="filter-input">
                                 <option value="id-asc" data-translate="id-asc">ID（昇順）</option>
                                 <option value="id-desc" data-translate="id-desc">ID（降順）</option>
                                 <option value="type-asc" data-translate="type-asc">タイプ（A-Z）</option>
@@ -155,21 +154,21 @@
                         </div>
                     </div>
 
-                    <div id="loading" class="loading">
-                        <p data-translate="loading"></p>
+                    <div id="loader" class="loading">
+                        <p data-translate="loading">読み込み中...</p>
                         <i class="fas fa-spinner"></i>
                     </div>
 
-                    <div id="formula-grid" class="formula-grid">
+                    <div id="cards-container" class="formula-grid">
                         <!-- 数式カードはJavaScriptで動的に生成 -->
                     </div>
 
-                    <div class="pagination">
-                        <button id="prev-page" disabled data-translate="prev-page">前のページ</button>
-                        <div class="page-info">
-                            <span id="current-page">1</span> / <span id="total-pages">1</span>
-                        </div>
-                        <button id="next-page" data-translate="next-page">次のページ</button>
+                    <div id="no-results" class="no-results" style="display: none;" data-translate="noResults">
+                        検索条件に一致する数式カードがありません。
+                    </div>
+
+                    <div id="pagination" class="pagination">
+                        <!-- ページネーションはJavaScriptで動的に生成 -->
                     </div>
                 </div>
             </section>
@@ -244,28 +243,6 @@
                             </div>
                         </div>
                     </section>
-
-                    <section class="how-to-section">
-                        <h2 data-translate="register-steps">3. 数式登録の手順</h2>
-                        <div class="register-info">
-                            <ol>
-                                <li>
-                                    <h3 data-translate="basic-info">基本情報を入力</h3>
-                                    <p data-translate="basic-info-description">数式のタイトル、タイプ、関連するタグを入力してください。</p>
-                                </li>
-                                <li>
-                                    <h3 data-translate="create-formula">Desmosで数式を作成</h3>
-                                    <p data-translate="create-formula-description">Desmosグラフ計算機に数式を入力し、グラフを作成してください。
-                                    </p>
-                                </li>
-                                <li>
-                                    <h3 data-translate="click-register">登録ボタンをクリック</h3>
-                                    <p data-translate="click-register-description">
-                                        すべての情報を入力したら「登録」ボタンをクリックしてください。数式と画像が自動的に登録されます。</p>
-                                </li>
-                            </ol>
-                        </div>
-                    </section>
                 </div>
             </div>
         </section>
@@ -274,11 +251,11 @@
     <footer class="footer">
         <div class="container footer-container">
             <p class="copyright" data-translate="footer">
-                &copy; <span id="currentYear"></span> 【彳▼亍 ▼てきちょく】関数アート検索
+                &copy; <span id="currentYear"></span> 関数図書館 | Graphary
             </p>
             <div class="footer-links">
-                <a href="https://x.com/TETH_Main" target="_blank" rel="noopener noreferrer"
-                    class="footer-link">Twitter</a>
+                <a href="https://github.com/TETH-Main/Graphary" target="_blank" rel="noopener noreferrer"
+                    class="footer-link">GitHub</a>
             </div>
         </div>
     </footer>
@@ -294,26 +271,18 @@
         </div>
     </div>
 
-    <!-- 報告モーダル -->
-    <div id="report-modal" class="report-modal hidden">
-        <div class="modal-overlay"></div>
-        <div class="modal-container">
-            <button id="report-close" class="modal-close">&times;</button>
-            <div class="modal-content">
-                <h2 data-translate="report-reason">報告理由</h2>
-                <textarea id="report-reason" placeholder="報告理由を入力してください..."
-                    data-translate-placeholder="report-reason-placeholder"></textarea>
-                <button id="report-submit" data-translate="report-submit">送信</button>
-            </div>
-        </div>
-    </div>
+    <!-- Setup global tagsList for component integration -->
+    <script>
+        // Initialize global tagsList
+        window.tagsList = [];
+    </script>
 
     <!-- 数式登録用のフローティングボタン -->
     <button id="register-fab" class="register-fab">
         <i class="fas fa-plus"></i>
     </button>
 
-    <!-- 新しいフローティングボタン -->
+    <!-- 関数アート動画検索ボタン -->
     <a href="https://teth-main.github.io/MathGraphArtSearch/" id="custom-fab" class="custom-fab">
         <img src="https://teth-main.github.io/MathGraphArtSearch/img/apple-touch-icon.png" alt="Graphary Icon">
     </a>
@@ -326,7 +295,7 @@
                 <i class="fas fa-times"></i>
             </button>
             <div class="modal-content">
-                <h2 class="page-title" data-translate="register-title">数式登録フォーム</h1>
+                <h2 class="page-title" data-translate="register-title">数式登録フォーム</h2>
                 <div class="register-content">
                     <div class="register-form-container">
                         <form id="formula-register-form" class="formula-form">
@@ -442,7 +411,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col">
-                                                    <button class="register-button" id="screenshot-button" type="button">
+                                                    <button class="register-button" id="screenshot-button"
+                                                        type="button">
                                                         <span>Generate</span>
                                                     </button>
                                                 </div>
@@ -494,17 +464,7 @@
         </div>
     </div>
 
-    <script src="js/models/Formula.js"></script>
-    <script src="js/utils/DateUtils.js"></script>
-    <script src="js/utils/UrlUtils.js"></script>
-    <script src="js/services/DataService.js"></script>
-    <script src="js/controllers/UIController.js"></script>
-    <script src="js/controllers/SearchController.js"></script>
-    <script src="js/controllers/PaginationController.js"></script>
-    <script src="js/language-switch.js"></script>
-    <script src="js/report.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/register.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
