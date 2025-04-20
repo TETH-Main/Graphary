@@ -1,0 +1,870 @@
+/* フローティングアクションボタンのスタイル */
+.register-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.register-fab:hover {
+    background-color: #3a76d8;
+}
+
+/* 数式登録モーダルのスタイル */
+.register-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+.register-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.register-modal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.register-modal .modal-container {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    z-index: 2001;
+    padding: 25px;
+    transition: transform 0.3s ease;
+    transform: translateY(0);
+}
+
+.register-modal .modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.register-modal .modal-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.register-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 数式登録フォームページのスタイル */
+.register-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.register-info {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-info h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.register-info h3 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.register-info ol {
+    padding-left: 20px;
+}
+
+.register-info li {
+    margin-bottom: 20px;
+}
+
+.register-info ul {
+    padding-left: 20px;
+}
+
+.register-form-container {
+    background-color: white;
+    border-radius: 8px;
+}
+
+.register-form-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.formula-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: #333;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 3px;
+}
+
+.form-group input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 134, 232, 0.2);
+}
+
+/* チェックボックスグループ */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin: 0;
+}
+
+/* Desmos コンテナ */
+.desmos-container {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+.desmos-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #666;
+}
+
+/* 送信ボタン */
+.form-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.register-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.register-button:hover {
+    background-color: #3a76d8;
+}
+
+.register-button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+/* 登録状態表示 */
+.register-status {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-spinner {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.status-message {
+    font-weight: bold;
+    color: #555;
+}
+
+/* 登録結果表示 */
+.register-result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.result-icon {
+    font-size: 48px;
+}
+
+.result-icon.success {
+    color: #2ecc71;
+}
+
+.result-icon.error {
+    color: #e74c3c;
+}
+
+.result-message {
+    font-weight: bold;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .checkbox-group {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        display: none;
+    }
+
+    .main-nav li {
+        margin-left: 10px;
+    }
+
+    .main-nav .nav-link {
+        padding: 5px 8px;
+        font-size: 14px;
+    }
+
+    .how-to-item {
+        flex-direction: column;
+    }
+
+    .how-to-image {
+        width: 100%;
+        min-height: 150px;
+    }
+
+    .register-content {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 992px) {
+    .register-info {
+        flex: 1;
+    }
+
+    .register-form-container {
+        flex: 1;
+    }
+}
+
+/* Desmos */
+#calculator, #calculator-3d {
+    width: 100%;
+    height: 600px;
+    border: none;
+    overflow: hidden;
+}
+
+/* form */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: flex-end;
+    column-gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.col {
+    position: relative;
+}
+
+.stretch {
+    flex: 1;
+}
+
+#screenshot-button {
+    margin-bottom: 10px;
+}
+
+#preview {
+    display: block;
+    margin: auto;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    width: 100%;
+    height: auto;
+}
+
+/* 数式モーダルのスタイル */
+.formula-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.modal-container {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    z-index: 2001;
+    padding: 25px;
+    transition: transform 0.3s ease;
+    transform: translateY(0);
+}
+
+.formula-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.formula-modal.hidden .modal-container {
+    transform: translateY(50px);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.modal-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* モーダル内の要素スタイル - 通常よりも大きく */
+.modal-formula-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.modal-formula-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+}
+
+.modal-formula-image img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.modal-image-type-container {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.modal-image-type-tag {
+    background-color: rgba(74, 134, 232, 0.9);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    display: inline-block;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.modal-formula-content {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: stretch;
+    min-height: 60px;
+}
+
+.modal-formula-scroll-container {
+    flex: 1;
+    overflow-x: auto;
+    padding: 15px;
+    border-right: 1px solid #e0e0e0;
+}
+
+.modal-formula-text {
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+    font-size: 18px;
+}
+
+.modal-copy-button-container {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+}
+
+.modal-copy-button {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.modal-copy-button:hover {
+    color: var(--primary-color);
+    background-color: #e8e8e8;
+}
+
+.modal-tag-id-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.modal-formula-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+}
+
+.modal-formula-tag {
+    background-color: #f0f0f0;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-formula-tag:hover {
+    background-color: #e0e0e0;
+}
+
+.modal-formula-id {
+    font-size: 16px;
+    color: #666;
+    font-style: italic;
+    padding: 5px 10px;
+}
+
+@media (max-width: 768px) {
+    .modal-container {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .modal-formula-title {
+        font-size: 22px;
+    }
+
+    .modal-formula-text {
+        font-size: 16px;
+    }
+
+    .modal-image-type-tag {
+        font-size: 14px;
+        padding: 4px 10px;
+    }
+
+    .modal-formula-tag {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .modal-copy-button-container {
+        width: 40px;
+    }
+}
+
+/* 2d/3d switch */
+.version-switch {
+    position: relative;
+    display: flex;
+}
+
+.version-switch input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.version-switch>label {
+    display: block;
+    padding: 0.25rem 1.375rem;
+    font-size: 1.375rem;
+    color: #007bff;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: 1px solid #007bff;
+    border-radius: 0.375rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.version-switch>input:checked+label {
+    color: #fff;
+    background-color: #007bff;
+}
+
+.version-switch>label:not(:first-of-type) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.version-switch>label:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* タグ選択コンポーネントのスタイル */
+.tag-selection-container {
+    margin-bottom: 15px;
+}
+
+.selected-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 36px;
+    padding: 5px 0;
+}
+
+.selected-tag {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 14px;
+    max-width: 100%;
+}
+
+.selected-tag-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selected-tag-remove {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-left: 6px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tag-search-container {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.tag-search-input {
+    width: 100%;
+    padding: 10px 10px 10px 36px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.tag-search-input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.tag-search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.tag-suggestions-container {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.tag-suggestions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tag-suggestions-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #666;
+}
+
+.add-new-tag-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.add-new-tag-button:hover {
+    background-color: rgba(74, 134, 232, 0.1);
+}
+
+.tag-suggestions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 5px 0;
+}
+
+.tag-suggestion {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
+}
+
+.tag-suggestion:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tag-search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 134, 232, 0.1);
+}
+
+.tag-search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.no-tags-message {
+    color: #888;
+    text-align: center;
+    padding: 15px;
+    font-style: italic;
+}
+
+/* レスポンシブデザイン対応 */
+@media (max-width: 768px) {
+    .tag-suggestions-list {
+        max-height: 120px;
+    }
+}
+
+.create-new-tag {
+    background-color: #e8f5e9;
+    border-left: 3px solid #4caf50;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #2e7d32;
+    margin-top: 10px;
+}
+
+.create-new-tag-name {
+    font-weight: bold;
+    display: inline-block;
+}

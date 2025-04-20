@@ -1,0 +1,10 @@
+# Environment variables
+.env
+
+# Generated Firebase config (if containing secrets locally)
+# js/firebase-config.js
+
+# Other gitignore entries...
+node_modules/
+dist/
+*.log
