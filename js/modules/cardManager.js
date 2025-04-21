@@ -498,7 +498,7 @@ export class CardManager {
             if (idMatch && idMatch[1]) {
                 const id = idMatch[1];
                 // Find the card in the last rendered list (more reliable than querying all cards)
-                return this.lastRenderedCards.find(card => card.id === id);
+                return this.lastRenderedCards.find(card => card.id == id);
             }
         }
         console.warn("Could not extract card ID from modal content.");
