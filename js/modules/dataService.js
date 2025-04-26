@@ -303,4 +303,22 @@ export class DataService {
         const numericId = Number(id);
         return this.formulaCards.find(card => card.id === numericId) || null;
     }
+    
+    /**
+     * 保存されている全てのカードを取得
+     * @returns {Array} 全てのカードの配列
+     */
+    getAllCards() {
+        return this.formulaCards;
+    }
+
+    /**
+     * ランダムに1つのカードを取得
+     * @returns {Object|null} ランダムに選択されたカードまたはnull
+     */
+    getRandomCard() {
+        if (this.formulaCards.length === 0) return null;
+        const randomIndex = Math.floor(Math.random() * this.formulaCards.length);
+        return this.formulaCards[randomIndex];
+    }
 }
